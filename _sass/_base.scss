@@ -751,11 +751,12 @@ footer.sticky-bottom {
       .links {
         a.btn {
           color: var(--global-text-color);
-          border: 1px solid var(--global-text-color);
+          border: solid;
           padding-left: 1rem;
           padding-right: 1rem;
           padding-top: 0.25rem;
           padding-bottom: 0.25rem;
+          font-weight: bold; /* Added to make text bold */
           margin-left: 0;
 
           &:hover {
@@ -816,11 +817,11 @@ footer.sticky-bottom {
       }
 
       div.abstract.hidden {
-        border: dashed 1px var(--global-bg-color);
+        border: none;
       }
 
       div.abstract.hidden.open {
-        border-color: var(--global-text-color);
+        border: none;
       }
     }
     div.award.hidden {

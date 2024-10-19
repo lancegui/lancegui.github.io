@@ -32,3 +32,15 @@
 "planck":
   - firstname: ["Max"]
     url: https://en.wikipedia.org/wiki/Max_Planck
+
+"xiao":
+  - firstname: ["Mo"]
+    url: https://sites.google.com/view/moxiao
+
+"smith":
+  - firstname: ["Austin", "Austin V."]
+    url: https://austinvsmith.com/
+
+"qin":
+  - firstname: ["Chuan"]
+    url: https://www.slcg.com/professionals/chuan-qin
