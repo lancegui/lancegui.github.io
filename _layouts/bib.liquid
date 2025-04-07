@@ -208,6 +208,13 @@
           <a href="{{ entry.html | prepend: '/assets/html/' | relative_url }}" class="btn btn-sm z-depth-0" role="button">HTML</a>
         {% endif %}
       {% endif %}
+      {% if entry.ssrn %}
+        {% if entry.ssrn contains '://' %}
+          <a href="{{ entry.ssrn }}" class="btn btn-sm z-depth-0" role="button">SSRN</a>
+        {% else %}
+          <a href="{{ entry.ssrn | prepend: '/assets/ssrn/' | relative_url }}" class="btn btn-sm z-depth-0" role="button">SSRN</a>
+        {% endif %}
+      {% endif %}
       {% if entry.pdf %}
         {% if entry.pdf contains '://' %}
           <a href="{{ entry.pdf }}" class="btn btn-sm z-depth-0" role="button">PDF</a>
