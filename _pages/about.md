@@ -18,7 +18,7 @@ Welcome!
 
 I am a Ph.D. candidate at the University of Arizona.
 
-My research interests are empirical industrial organization and health economics.
+My research interests are industrial organization, health economics and quantitative marketing.
 
 You can find my CV at <a href='cv/'>here</a>.
 
