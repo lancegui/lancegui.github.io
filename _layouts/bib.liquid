@@ -176,11 +176,15 @@
       {{ periodical | strip }}
     </div>
 
-    {% if entry.location %}
-      <div class="periodical">
-        Presentation:  <em>{{ entry.location }}</em>   
-      </div>
-    {% endif %}
+  {% if entry.location %}
+    <div class="periodical">
+      {% if entry.location contains "," %}
+        Presentations: <em>{{ entry.location }}</em>
+      {% else %}
+        Presentation: <em>{{ entry.location }}</em>
+      {% endif %}
+    </div>
+  {% endif %}
 
     <div class="periodical">
       {{ entry.note | strip }}
@@ -357,7 +361,7 @@
     {% if entry.abstract %}
       <!-- Hidden abstract block -->
       <div class="abstract hidden">
-        <p>{{ entry.abstract }}</p>
+        {{ entry.abstract }}
       </div>
     {% endif %}
 
