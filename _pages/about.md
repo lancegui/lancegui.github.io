@@ -18,12 +18,12 @@ Welcome!
 
 I am a Ph.D. candidate at the University of Arizona.
 
-My research interests are industrial organization, health economics and public health.
+My research interests are industrial organization and health economics.
 
-**I am on the 2025-2026 job market.**
+I will be joining the University of Mannheim as a Post-Doc.
 
 You can find my CV at <a href='cv/'>here</a>.
 
 
-You can reach me at [gui@arizona.edu](gui@arizona.edu).
+You can reach me at <a href='mailto:gui@arizona.edu'>gui@arizona.edu</a>.
 
