@@ -1,777 +1,272 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://lancegui.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://lancegui.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2026-05-06T02:18:26+00:00</updated><id>https://lancegui.github.io/feed.xml</id><title type="html">Lance Gui</title><subtitle>Lance Gui&apos;s website </subtitle><entry><title type="html">Google Gemini updates: Flash 1.5, Gemma 2 and Project Astra</title><link href="https://lancegui.github.io/blog/2024/google-gemini-updates-flash-15-gemma-2-and-project-astra/" rel="alternate" type="text/html" title="Google Gemini updates: Flash 1.5, Gemma 2 and Project Astra"/><published>2024-05-14T00:00:00+00:00</published><updated>2024-05-14T00:00:00+00:00</updated><id>https://lancegui.github.io/blog/2024/google-gemini-updates-flash-15-gemma-2-and-project-astra</id><content type="html" xml:base="https://lancegui.github.io/blog/2024/google-gemini-updates-flash-15-gemma-2-and-project-astra/"><![CDATA[]]></content><author><name></name></author><summary type="html"><![CDATA[We’re sharing updates across our Gemini family of models and a glimpse of Project Astra, our vision for the future of AI assistants.]]></summary></entry><entry><title type="html">a post with tabs</title><link href="https://lancegui.github.io/blog/2024/tabs/" rel="alternate" type="text/html" title="a post with tabs"/><published>2024-05-01T00:32:13+00:00</published><updated>2024-05-01T00:32:13+00:00</updated><id>https://lancegui.github.io/blog/2024/tabs</id><content type="html" xml:base="https://lancegui.github.io/blog/2024/tabs/"><![CDATA[<p>This is how a post with <a href="https://github.com/Ovski4/jekyll-tabs">tabs</a> looks like. Note that the tabs could be used for different purposes, not only for code.</p> <h2 id="first-tabs">First tabs</h2> <p>To add tabs, use the following syntax:</p> <div class="language-liquid highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">{%</span><span class="w"> </span><span class="nt">tabs</span><span class="w"> </span><span class="nv">group-name</span><span class="w"> </span><span class="cp">%}</span>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://lancegui.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://lancegui.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2026-05-19T02:41:45+00:00</updated><id>https://lancegui.github.io/feed.xml</id><title type="html">Lance Gui</title><subtitle>Lance Gui&apos;s website </subtitle><entry><title type="html">From chat box to research workflow</title><link href="https://lancegui.github.io/blog/2026/ai-research-workflow/" rel="alternate" type="text/html" title="From chat box to research workflow"/><published>2026-05-18T12:00:00+00:00</published><updated>2026-05-18T12:00:00+00:00</updated><id>https://lancegui.github.io/blog/2026/ai-research-workflow</id><content type="html" xml:base="https://lancegui.github.io/blog/2026/ai-research-workflow/"><![CDATA[<p>Most people meet AI as a chat box: type a question, get an answer, copy the useful part somewhere else. That is fine for quick tasks. It is too small a mental model for research.</p> <p>The under-discussed part is local and lower-cost LLMs. The public conversation is mostly about ChatGPT, Claude, Gemini, and whatever model is winning the leaderboard this week. Those models matter. I use them. But capable AI is no longer only something you rent from a chat website.</p> <p>For example, Gemma 4 26B A4B and Qwen 3.6 35B A3B are relatively small by frontier-model standards. Yet in public benchmark comparisons, they can sit near last-generation flagship systems like ChatGPT-4o and Claude Opus 4, and sometimes beat them on particular tasks. That does not make them magic. It does mean the laptop model is not just a toy for summarizing grocery lists.</p> <p>That is the main idea of this post: do not think of AI only as a website you visit. Think of it as a model you can route into your research workspace. Sometimes the model is local. Sometimes it is Claude. Sometimes it is a cheaper API model. The workflow can stay the same.</p> <p>Research work is folder-shaped. There are notes, PDFs, scripts, datasets, citations, logs, drafts, screenshots, and half-finished ideas with names like <code class="language-plaintext highlighter-rouge">final_really_final_v3</code>. A chat box can help, but it usually sits outside the work. A harness brings the model into the project.</p> <p>My setup uses fast local models for small jobs, stronger remote models for harder jobs, a coding harness to keep work organized, MCP tools when the agent needs a browser, skills for research habits I repeat, and Git so mistakes are reversible.</p> <p>This post explains that setup in plain English. The target reader is an economist, policy researcher, graduate student, or curious person who wants to use AI for real work without becoming a full-time AI engineer.</p> <h2 id="ai-words-used-here">AI words used here</h2> <p>AI writing gets messy fast because the vocabulary sounds like a small conference badge collection. Here are the terms I use in this post.</p> <p><strong>Local model:</strong> An AI model that runs on your own computer instead of a company server. It is useful for private notes, offline work, and cheap repeated tasks.</p> <p><strong>LLM:</strong> Short for large language model. This is the kind of AI system behind tools like ChatGPT, Claude, and many local models. It predicts and generates text, code, and structured output based on patterns learned from large amounts of data.</p> <p><strong>Quantization:</strong> A way to store a model in a smaller numerical format. A model that is too large in full precision may fit on a laptop in 4-bit or 5-bit form. The tradeoff is some accuracy; the gain is that it runs.</p> <p><strong>MoE:</strong> Short for mixture of experts. The model has many internal expert parts, but uses only some of them for each token. That can make it faster than a dense model of similar total size.</p> <p><strong>Harness:</strong> The program around the model. A chat box only answers. A harness gives the model a workspace where it can inspect files, edit code, run commands, and use tools.</p> <p><strong>Vibe coding:</strong> Describing what you want in natural language and letting an AI write, edit, run, and debug code with you. It does not mean you stop thinking. It means you move from typing every line yourself to directing the work and checking the result.</p> <p><strong>MCP:</strong> Short for Model Context Protocol. MCP is a standard way for AI tools to connect to other tools and data sources. Plain English version: MCP gives the model hands.</p> <p><strong>Skills:</strong> Reusable instruction packets. A skill tells the agent how to do a repeated kind of work, such as checking citations, cleaning data, or revising prose in your preferred style. If MCP gives the model hands, skills give it habits.</p> <p><strong>Git:</strong> Version control. It lets you save checkpoints and go back when something breaks. Before letting AI edit a real project, make the project easy to undo.</p> <h2 id="the-stack">The stack</h2> <p>The stack in this post is simple:</p> <ol> <li>A local model handles fast, private, offline work.</li> <li>A frontier model handles tasks that need stronger reasoning.</li> <li>A harness gives the model access to the project.</li> <li>MCP gives the model tools, especially a browser.</li> <li>Skills give the model reusable research habits.</li> <li>Git keeps the work recoverable.</li> </ol> <p>The stack matters because research is cumulative. A chat box forgets the project shape. A harness can work inside the folder where your paper, code, data, logs, screenshots, and notes already live.</p> <h2 id="start-with-the-machine-you-already-have">Start with the machine you already have</h2> <p>If you use an Apple Silicon MacBook, meaning M1 or newer, you already have a surprisingly good local AI machine.</p> <p>The reason is unified memory. On many desktops, the CPU has system RAM and the GPU has separate VRAM. If your graphics card has 32 GB of VRAM, then 32 GB is the hard limit for what the GPU can hold. Apple Silicon is different. The CPU and GPU share one memory pool, which Apple lists as <a href="https://support.apple.com/en-us/121553">unified memory</a> in its Mac specs. A MacBook with 36 GB or 48 GB of unified memory can use that memory more flexibly for local model inference.</p> <p>I have a MacBook with 48 GB of RAM. Two models I have used extensively are especially interesting:</p> <ul> <li><a href="https://huggingface.co/unsloth/Qwen3.6-35B-A3B-UD-MLX-4bit">Qwen 3.6 35B A3B, MLX 4-bit</a></li> <li><a href="https://huggingface.co/lmstudio-community/gemma-4-26B-A4B-it-MLX-4bit">Gemma 4 26B A4B, MLX 4-bit</a></li> </ul> <p>The key words are <strong>quantization</strong> and <strong>MoE</strong>. Quantization helps the model fit. MoE helps the model move faster. For everyday work, speed matters. The difference between 20 tokens per second and 60 tokens per second is the difference between “I will wait” and “I will actually use this all day.”</p> <p>I usually recommend installing local models through <a href="https://lmstudio.ai/">LM Studio</a>. It gives you a simple app, a model browser, and a local server. Ollama can do similar work, but MLX support is currently easiest for me through LM Studio.</p> <figure> <img src="/assets/img/ai-workflow-lmstudio-mlx-model-search.png" alt="LM Studio model search showing the MLX filter and full GPU offload indicator" style="width: 100%; max-width: 100%; height: auto;"/> <figcaption>On Apple Silicon, I look for MLX models and full GPU offload when possible.</figcaption> </figure> <figure> <img src="/assets/img/ai-workflow-lmstudio-load-model.png" alt="LM Studio developer tab with the local server running and the Load Model button highlighted" style="width: 100%; max-width: 100%; height: auto;"/> <figcaption>Start LM Studio's local server first, then load a model.</figcaption> </figure> <figure> <img src="/assets/img/ai-workflow-lmstudio-context-length.png" alt="LM Studio model load dialog with context length set to the maximum" style="width: 100%; max-width: 100%; height: auto;"/> <figcaption>When loading the model, set the context length high enough for the work you want to do. More context uses more memory, so lower it if the model becomes unstable.</figcaption> </figure> <p>Benchmarks are not the whole story, but they explain why this is worth trying. This <a href="https://llm-stats.com/models/compare/gemma-4-26b-a4b-it-vs-claude-opus-4-20250514-vs-chatgpt-4o-latest-vs-qwen3.6-35b-a3b">llm-stats comparison</a> puts Gemma 4 26B A4B and Qwen 3.6 35B A3B next to ChatGPT-4o and Claude Opus 4. I read comparisons like that as permission to use local models for routine work, not proof that they replace frontier systems.</p> <p>The best frontier systems are still better for many hard tasks. The practical point is smaller: the gap is now narrow enough that a local model can become part of your daily research setup.</p> <p>Local models are especially useful when the task is:</p> <ul> <li>Editing short text</li> <li>Fixing short blocks of code</li> <li>Cleaning notes</li> <li>Drafting small scripts</li> <li>Working with private notes</li> <li>Working on a plane or anywhere without internet</li> </ul> <p>The private notes point matters. If you use a system like Obsidian to manage your life or write journals, you may not want every thought sent to an online service. A local model gives you a useful private workspace.</p> <p>The point is not to become a local-model purist. It is to have another gear. Sometimes you need the strongest model available. Sometimes you need the model that is already running on your laptop.</p> <h2 id="put-the-model-inside-a-harness">Put the model inside a harness</h2> <p>Running a local model is only half the trick. The other half is putting it somewhere useful.</p> <p>Claude Code is one example of a harness. Claude Code is not itself the language model. It is the structure around the model. It lets the model inspect files, edit code, run commands, use tools, and keep track of a project.</p> <p>I also use <a href="https://github.com/cline/cline">Cline</a> with local LLMs. I find Cline useful with smaller models because the VS Code workflow feels natural.</p> <p>Plain English version:</p> <blockquote> <p>A chatbot answers you. A harness lets the model work inside the project.</p> </blockquote> <p>This is what makes vibe coding useful. You are no longer asking a chatbot for advice and then copying answers by hand. You are letting an agent work inside the folder where the project already lives. You still inspect the result. You still own the judgment. The model just gets to stop being a very confident autocomplete trapped in a text box.</p> <p>For local models, LM Studio documents this directly in its <a href="https://lmstudio.ai/docs/integrations/claude-code">Claude Code integration guide</a>. The key idea is that LM Studio can expose an Anthropic-compatible endpoint on your own machine.</p> <p>My main interest is using this inside VS Code because that is where most of my code lives.</p> <p>First, make sure the Claude Code extension is installed and enabled.</p> <figure> <img src="/assets/img/ai-workflow-vscode-claude-code-extension.png" alt="VS Code extension marketplace showing Claude Code for VS Code installed" style="width: 100%; max-width: 100%; height: auto;"/> <figcaption>Install the Claude Code extension in VS Code before editing the settings.</figcaption> </figure> <p>Then open your user settings.</p> <figure> <img src="/assets/img/ai-workflow-vscode-open-settings.png" alt="VS Code command palette showing how to open user settings" style="width: 100%; max-width: 100%; height: auto;"/> <figcaption>Use the command palette to open your user settings. On macOS, press <code>Shift + Command + P</code> and search for settings.</figcaption> </figure> <figure> <img src="/assets/img/ai-workflow-vscode-claude-env-vars.png" alt="VS Code settings JSON showing Claude Code environment variables" style="width: 100%; max-width: 100%; height: auto;"/> <figcaption>This is the block to edit when routing Claude Code through another compatible API endpoint. Hide your real API key before sharing screenshots.</figcaption> </figure> <p>Add this block to VS Code <code class="language-plaintext highlighter-rouge">settings.json</code>:</p> <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">"claudeCode.environmentVariables"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ANTHROPIC_BASE_URL"</span><span class="p">,</span><span class="w"> </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:1234"</span><span class="w"> </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ANTHROPIC_AUTH_TOKEN"</span><span class="p">,</span><span class="w"> </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"lmstudio"</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div></div> <p>Restart VS Code after changing the settings.</p> <p>Now Claude Code is working inside your VS Code project, but the model can be local. It is not magic. It is plumbing. A lot of applied AI is getting the plumbing right.</p> <h2 id="keep-the-model-swappable">Keep the model swappable</h2> <p>Once you organize the work around a harness, the model becomes more swappable.</p> <p>You can use:</p> <ul> <li>A local model for cheap, private, offline tasks</li> <li>Claude for difficult coding and long-context reasoning</li> <li>DeepSeek or another lower-cost API model when price matters</li> </ul> <p>This is one of the most important practical lessons: do not marry one model. Build a workflow where different models can plug into the same research environment.</p> <p>That is why the harness matters so much. Once the agent workflow is set up, you can often swap the engine underneath it. Claude Code does not have to mean “only use Claude for everything.” Cline does not have to mean “only use one local model.” The harness gives you the workflow; the model supplies the reasoning. For some jobs, a cheaper model inside the right harness feels much closer to the expensive experience than people expect.</p> <p>The same logic applies to harnesses. <a href="https://github.com/cline/cline">Cline</a> has a natural flow inside VS Code. <a href="https://github.com/NousResearch/hermes-agent">Hermes Agent</a> can learn from past behavior. Claude Code has convenient built-in features like web retrieval and web search. I do not expect one tool to win forever. I want the workflow to stay modular.</p> <p>Sometimes I want the best model I can get. Sometimes I want a cheaper model because I am scraping many pages. Sometimes I want a local model because I am offline. The harness makes those choices less painful.</p> <p>Here is the pattern for routing Claude Code to a different compatible API endpoint:</p> <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">"claudeCode.environmentVariables"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ANTHROPIC_BASE_URL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.deepseek.com/anthropic"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ANTHROPIC_AUTH_TOKEN"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"YOUR API KEY"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ANTHROPIC_MODEL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"deepseek-v4-pro[1m]"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ANTHROPIC_DEFAULT_OPUS_MODEL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"deepseek-v4-pro[1m]"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ANTHROPIC_DEFAULT_SONNET_MODEL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"deepseek-v4-pro[1m]"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ANTHROPIC_DEFAULT_HAIKU_MODEL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"deepseek-v4-flash"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CLAUDE_CODE_SUBAGENT_MODEL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"deepseek-v4-flash"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CLAUDE_CODE_EFFORT_LEVEL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"max"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div></div> <p>You can see the pattern. To make Claude Code run on something other than Anthropic’s models, you point it to another compatible endpoint and set the model names.</p> <p>One issue I noticed: web search may not work the same way with DeepSeek. One workaround is to give Claude Code this gist and ask it to implement the web-search bridge: <a href="https://gist.github.com/arbipher/f959c14de7a9e09c78a2b162bc6f1ec9">arbipher/f959c14de7a9e09c78a2b162bc6f1ec9</a>. Modern LLMs are good enough that you often do not need to fully understand every detail of the workaround. You still need to verify that it works.</p> <h2 id="add-tools-with-mcp">Add tools with MCP</h2> <p>MCP is useful because many research tasks require the agent to do something outside the chat box.</p> <p>One MCP I find especially useful is <a href="https://github.com/microsoft/playwright-mcp">microsoft/playwright-mcp</a>. Playwright is a browser automation tool. With Playwright MCP, an agent can open a browser, click buttons, fill forms, and inspect pages.</p> <p>This matters because many websites are not simple static HTML pages. Some require clicks, search boxes, login flows, or JavaScript. A browser-controlling agent can often handle sites that a simple scraper cannot. It should still respect logins, terms of service, and access rules.</p> <p>Copy-paste install for Claude Code:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>claude mcp add playwright npx @playwright/mcp@latest
+</code></pre></div></div> <p>Or you can ask Claude Code to install <code class="language-plaintext highlighter-rouge">microsoft/playwright-mcp</code> for you. This is a good example of vibe coding: you do not always need to remember the exact command if the agent can look up and apply the setup.</p> <p>After restarting Claude Code, ask:</p> <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Use playwright to navigate to https://example.com and tell me the page title.
+</code></pre></div></div> <p>If that works, the agent has a browser tool.</p> <p>This becomes extremely convenient for web scraping. You do not need to manually find every button or inspect every element. If you have worked with Selenium before, you know how annoying it can be to figure out which button maps to which script. Now the LLM can often operate the browser directly.</p> <p>This also changes search. Scraping no longer has to rely only on keyword matching. The model can use text understanding while it navigates. That is especially useful when searching through legal statutes, where the same idea may be described in different words across states.</p> <h2 id="add-habits-with-skills">Add habits with skills</h2> <p>Skills are different from MCP tools. A skill is a reusable instruction packet. It tells the agent how to do a repeated kind of work.</p> <p>For example, a skill could say:</p> <ul> <li>How to scrape laws</li> <li>How to write an economics-style literature review</li> <li>How to check citations</li> <li>How to clean a dataset</li> <li>How to prepare a replication package</li> <li>How to revise prose using Deirdre McCloskey’s <em>Economical Writing</em> principles</li> </ul> <p>Skills are useful because LLMs handle bounded tasks better than sprawling projects. Give a model one clear job and it can be amazing. Ask it to maintain a complex research project over many hours and it starts to drift. It forgets constraints. It repeats itself. It changes the plan.</p> <p>The risk grows after the conversation fills the context window and the system has to compact the memory. Context is what makes the model smart about your specific task. When that context is compressed, some details survive and some do not.</p> <p>So I try to make the plan explicit before the model starts doing serious work. I use a planning skill in my own setup, and I recommend studying public skill collections like <a href="https://github.com/addyosmani/agent-skills">addyosmani/agent-skills</a>. There are skills for planning, testing, Git workflows, visual review, and parallel agents. <a href="https://github.com/obra/superpowers">obra/superpowers</a> has a similar spirit. You can use both styles at the same time.</p> <p>Git is worth mentioning again here, even for non-technical readers. Git is version control. It lets you save checkpoints and go back when something breaks. The important idea is simple: before letting an AI edit a project, make it easy to undo the edits. That is better than trusting a rewind button in a chat app.</p> <p>Skills also make parallel agents more useful. Instead of one model slowly doing everything, you can send smaller jobs to multiple agents: one checks sources, one writes a scraper, one reviews output, one drafts documentation. This can be powerful, but it can also burn through your subscription or API budget very quickly.</p> <p>Of course, you can make your own skill. I made one using Anthropic’s <code class="language-plaintext highlighter-rouge">/create-skill</code> flow. After a few iterations, it became a comfortable place to edit my writing. It pushes for active voice, avoids excessive em dashes, checks logic, and follows some of the economics writing habits I care about. I keep the current version here: <a href="https://github.com/lancegui/economic-editor-skills">lancegui/economic-editor-skills</a>.</p> <p>Skills usually live as folders with a <code class="language-plaintext highlighter-rouge">SKILL.md</code> file. A simple skill has:</p> <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>my-skill/
+  SKILL.md
+</code></pre></div></div> <p>The skill file explains when to use the skill and what steps to follow. The important part is not that the file is fancy. It is that the file captures repeated judgment. A good writing skill can remember your preferred style, common mistakes, revision principles, and examples of writing you think works well.</p> <p>That looks simple, but it matters. You are turning repeated judgment into reusable infrastructure.</p> <h2 id="watch-the-cost">Watch the cost</h2> <p>Once you add MCP, browser automation, skills, and parallel agents, AI can get expensive fast.</p> <p>I once burned through a five-hour Claude Pro session in about ten minutes by scraping websites and running agents in parallel. That is funny once. It is less funny if it becomes your research workflow.</p> <p>There are three ways to handle this:</p> <ol> <li>Pay for a larger subscription.</li> <li>Use pay-as-you-go APIs.</li> <li>Route cheaper tasks to cheaper or local models.</li> </ol> <p>The third option is the most interesting. Use the expensive frontier model for the parts that need judgment. Use local or cheaper models for repetitive parts: page extraction, cleaning, first-pass classification, logging, formatting, and sanity checks.</p> <p>The rule of thumb is simple:</p> <blockquote> <p>Spend frontier-model attention where judgment matters. Spend cheap-model attention where repetition matters.</p> </blockquote> <h2 id="use-case-scraping-laws">Use case: scraping laws</h2> <p>The place where all of this comes together for me is legal and policy data.</p> <p>Economists often need datasets that do not exist yet. Suppose you want to study a law across states. The hard part is often not the regression. The hard part is building the dataset:</p> <ul> <li>Which states have the law?</li> <li>When did the law pass?</li> <li>When did it take effect?</li> <li>What exact statutory text changed?</li> <li>Which definitions matter?</li> <li>Are there thresholds, exemptions, or sunset dates?</li> <li>Did later amendments change the treatment?</li> </ul> <p>This is exactly where AI helps, but only if used carefully.</p> <p>My preferred workflow looks like this:</p> <ol> <li>Use a planning skill, <code class="language-plaintext highlighter-rouge">/agent-skills</code>, or <code class="language-plaintext highlighter-rouge">/superpowers</code> to create a plan.</li> <li>Design the schema before scraping: variables, enactment dates, effective dates, legal definitions, petitions, exemptions, and sources.</li> <li>Tell the agent to use Git before editing code or data files.</li> <li>Save the plan locally. If the agent does not save it, explicitly ask it to create a plan file.</li> <li>Run the workflow on a few states first.</li> <li>Review the output and revise the plan. Some laws will not look like what you expected.</li> <li>Use parallel agents only after the pilot looks reasonable.</li> <li>Use Playwright MCP when ordinary scraping gets stuck on browser interactions.</li> <li>Ask the agent to write a summary of what it found, what failed, and what still needs human review.</li> <li>Repeat until the dataset is good enough to audit.</li> </ol> <p>There will be problems. In web scraping, there are always problems. Browsers fail, pages change, legal search portals behave strangely, and some states organize statutes in surprising ways. That is why the plan and summary must be saved locally. The model will drift less, and you will know what happened when you return to the project later.</p> <p>Your job is to keep the plan updated, keep the summary updated, and create enough checkpoints that one bad pass does not ruin the project.</p> <h2 id="copy-paste-plan-template">Copy-paste plan template</h2> <p>Here is the kind of <code class="language-plaintext highlighter-rouge">plan.md</code> I want the agent to create before serious scraping starts. This is adapted from a real project plan, but I removed the specific law and issue area. The point is the structure.</p> <details> <summary><strong>Open generic <code>plan.md</code> template</strong></summary> <div style="max-height: 520px; overflow: auto; border: 1px solid var(--global-divider-color); padding: 1rem; margin-top: 1rem; border-radius: 6px;"> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gh"># Implementation Plan: 50-State Legal Dataset</span>
 
-<span class="cp">{%</span><span class="w"> </span><span class="nt">tab</span><span class="w"> </span><span class="nv">group-name</span><span class="w"> </span><span class="nv">tab-name-1</span><span class="w"> </span><span class="cp">%}</span>
-
-Content 1
-
-<span class="cp">{%</span><span class="w"> </span><span class="nt">endtab</span><span class="w"> </span><span class="cp">%}</span>
-
-<span class="cp">{%</span><span class="w"> </span><span class="nt">tab</span><span class="w"> </span><span class="nv">group-name</span><span class="w"> </span><span class="nv">tab-name-2</span><span class="w"> </span><span class="cp">%}</span>
-
-Content 2
-
-<span class="cp">{%</span><span class="w"> </span><span class="nt">endtab</span><span class="w"> </span><span class="cp">%}</span>
-
-<span class="cp">{%</span><span class="w"> </span><span class="nt">endtabs</span><span class="w"> </span><span class="cp">%}</span>
-</code></pre></div></div> <p>With this you can generate visualizations like:</p> <ul id="log" class="tab" data-tab="887ad6fb-2a50-46a6-a926-72635682f46c" data-name="log"> <li class="active" id="log-php"> <a href="#">php </a> </li> <li id="log-js"> <a href="#">js </a> </li> <li id="log-ruby"> <a href="#">ruby </a> </li> </ul> <ul class="tab-content" id="887ad6fb-2a50-46a6-a926-72635682f46c" data-name="log"> <li class="active"> <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">var_dump</span><span class="p">(</span><span class="s1">'hello'</span><span class="p">);</span>
-</code></pre></div></div> </li> <li> <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">hello</span><span class="dl">"</span><span class="p">);</span>
-</code></pre></div></div> </li> <li> <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">pputs</span> <span class="dl">'</span><span class="s1">hello</span><span class="dl">'</span>
-</code></pre></div></div> </li> </ul> <h2 id="another-example">Another example</h2> <ul id="data-struct" class="tab" data-tab="f8509160-5b3e-4ac0-b06a-20c5615be150" data-name="data-struct"> <li class="active" id="data-struct-yaml"> <a href="#">yaml </a> </li> <li id="data-struct-json"> <a href="#">json </a> </li> </ul> <ul class="tab-content" id="f8509160-5b3e-4ac0-b06a-20c5615be150" data-name="data-struct"> <li class="active"> <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">hello</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="s2">"</span><span class="s">whatsup"</span>
-  <span class="pi">-</span> <span class="s2">"</span><span class="s">hi"</span>
-</code></pre></div></div> </li> <li> <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"hello"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"whatsup"</span><span class="p">,</span><span class="w"> </span><span class="s2">"hi"</span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div> </li> </ul> <h2 id="tabs-for-something-else">Tabs for something else</h2> <ul id="something-else" class="tab" data-tab="26d950c7-1599-4b65-8dc3-46591ee006ae" data-name="something-else"> <li class="active" id="something-else-text"> <a href="#">text </a> </li> <li id="something-else-quote"> <a href="#">quote </a> </li> <li id="something-else-list"> <a href="#">list </a> </li> </ul> <ul class="tab-content" id="26d950c7-1599-4b65-8dc3-46591ee006ae" data-name="something-else"> <li class="active"> <p>Regular text</p> </li> <li> <blockquote> <p>A quote</p> </blockquote> </li> <li> <p>Hipster list</p> <ul> <li>brunch</li> <li>fixie</li> <li>raybans</li> <li>messenger bag</li> </ul> </li> </ul>]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="code"/><summary type="html"><![CDATA[this is what included tabs in a post could look like]]></summary></entry><entry><title type="html">a post with typograms</title><link href="https://lancegui.github.io/blog/2024/typograms/" rel="alternate" type="text/html" title="a post with typograms"/><published>2024-04-29T23:36:10+00:00</published><updated>2024-04-29T23:36:10+00:00</updated><id>https://lancegui.github.io/blog/2024/typograms</id><content type="html" xml:base="https://lancegui.github.io/blog/2024/typograms/"><![CDATA[<p>This is an example post with some <a href="https://github.com/google/typograms/">typograms</a> code.</p> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">```</span><span class="nl">typograms
-</span><span class="sb">+----+
-|    |---&gt; My first diagram!
-+----+</span>
-<span class="p">```</span>
-</code></pre></div></div> <p>Which generates:</p> <pre><code class="language-typograms">+----+
-|    |---&gt; My first diagram!
-+----+
-</code></pre> <p>Another example:</p> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">```</span><span class="nl">typograms
-</span><span class="sb">.------------------------.
-|.----------------------.|
-||"https://example.com" ||
-|'----------------------'|
-| ______________________ |
-||                      ||
-||   Welcome!           ||
-||                      ||
-||                      ||
-||  .----------------.  ||
-||  | username       |  ||
-||  '----------------'  ||
-||  .----------------.  ||
-||  |"*******"       |  ||
-||  '----------------'  ||
-||                      ||
-||  .----------------.  ||
-||  |   "Sign-up"    |  ||
-||  '----------------'  ||
-||                      ||
-|+----------------------+|
-.------------------------.</span>
-<span class="p">```</span>
-</code></pre></div></div> <p>which generates:</p> <pre><code class="language-typograms">.------------------------.
-|.----------------------.|
-||"https://example.com" ||
-|'----------------------'|
-| ______________________ |
-||                      ||
-||   Welcome!           ||
-||                      ||
-||                      ||
-||  .----------------.  ||
-||  | username       |  ||
-||  '----------------'  ||
-||  .----------------.  ||
-||  |"*******"       |  ||
-||  '----------------'  ||
-||                      ||
-||  .----------------.  ||
-||  |   "Sign-up"    |  ||
-||  '----------------'  ||
-||                      ||
-|+----------------------+|
-.------------------------.
-</code></pre> <p>For more examples, check out the <a href="https://google.github.io/typograms/#examples">typograms documentation</a>.</p>]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="diagrams"/><summary type="html"><![CDATA[this is what included typograms code could look like]]></summary></entry><entry><title type="html">a post that can be cited</title><link href="https://lancegui.github.io/blog/2024/post-citation/" rel="alternate" type="text/html" title="a post that can be cited"/><published>2024-04-28T15:06:00+00:00</published><updated>2024-04-28T15:06:00+00:00</updated><id>https://lancegui.github.io/blog/2024/post-citation</id><content type="html" xml:base="https://lancegui.github.io/blog/2024/post-citation/"><![CDATA[<p>This is an example post that can be cited. The content of the post ends here, while the citation information is automatically provided below. The only thing needed is for you to set the <code class="language-plaintext highlighter-rouge">citation</code> key in the front matter to <code class="language-plaintext highlighter-rouge">true</code>.</p>]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="citation"/><summary type="html"><![CDATA[this is what a post that can be cited looks like]]></summary></entry><entry><title type="html">a post with pseudo code</title><link href="https://lancegui.github.io/blog/2024/pseudocode/" rel="alternate" type="text/html" title="a post with pseudo code"/><published>2024-04-15T00:01:00+00:00</published><updated>2024-04-15T00:01:00+00:00</updated><id>https://lancegui.github.io/blog/2024/pseudocode</id><content type="html" xml:base="https://lancegui.github.io/blog/2024/pseudocode/"><![CDATA[<p>This is an example post with some pseudo code rendered by <a href="https://github.com/SaswatPadhi/pseudocode.js">pseudocode</a>. The example presented here is the same as the one in the <a href="https://saswat.padhi.me/pseudocode.js/">pseudocode.js</a> documentation, with only one simple but important change: everytime you would use <code class="language-plaintext highlighter-rouge">$</code>, you should use <code class="language-plaintext highlighter-rouge">$$</code> instead. Also, note that the <code class="language-plaintext highlighter-rouge">pseudocode</code> key in the front matter is set to <code class="language-plaintext highlighter-rouge">true</code> to enable the rendering of pseudo code. As an example, using this code:</p> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">```</span><span class="nl">pseudocode
-</span><span class="sb">% This quicksort algorithm is extracted from Chapter 7, Introduction to Algorithms (3rd edition)
-\begin{algorithm}
-\caption{Quicksort}
-\begin{algorithmic}
-\PROCEDURE{Quicksort}{$$A, p, r$$}
-    \IF{$$p &lt; r$$}
-        \STATE $$q = $$ \CALL{Partition}{$$A, p, r$$}
-        \STATE \CALL{Quicksort}{$$A, p, q - 1$$}
-        \STATE \CALL{Quicksort}{$$A, q + 1, r$$}
-    \ENDIF
-\ENDPROCEDURE
-\PROCEDURE{Partition}{$$A, p, r$$}
-    \STATE $$x = A[r]$$
-    \STATE $$i = p - 1$$
-    \FOR{$$j = p$$ \TO $$r - 1$$}
-        \IF{$$A[j] &lt; x$$}
-            \STATE $$i = i + 1$$
-            \STATE exchange
-            $$A[i]$$ with $$A[j]$$
-        \ENDIF
-        \STATE exchange $$A[i]$$ with $$A[r]$$
-    \ENDFOR
-\ENDPROCEDURE
-\end{algorithmic}
-\end{algorithm}</span>
-<span class="p">```</span>
-</code></pre></div></div> <p>Generates:</p> <pre><code class="language-pseudocode">% This quicksort algorithm is extracted from Chapter 7, Introduction to Algorithms (3rd edition)
-\begin{algorithm}
-\caption{Quicksort}
-\begin{algorithmic}
-\PROCEDURE{Quicksort}{$$A, p, r$$}
-    \IF{$$p &lt; r$$}
-        \STATE $$q = $$ \CALL{Partition}{$$A, p, r$$}
-        \STATE \CALL{Quicksort}{$$A, p, q - 1$$}
-        \STATE \CALL{Quicksort}{$$A, q + 1, r$$}
-    \ENDIF
-\ENDPROCEDURE
-\PROCEDURE{Partition}{$$A, p, r$$}
-    \STATE $$x = A[r]$$
-    \STATE $$i = p - 1$$
-    \FOR{$$j = p$$ \TO $$r - 1$$}
-        \IF{$$A[j] &lt; x$$}
-            \STATE $$i = i + 1$$
-            \STATE exchange
-            $$A[i]$$ with $$A[j]$$
-        \ENDIF
-        \STATE exchange $$A[i]$$ with $$A[r]$$
-    \ENDFOR
-\ENDPROCEDURE
-\end{algorithmic}
-\end{algorithm}
-</code></pre>]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="code"/><summary type="html"><![CDATA[this is what included pseudo code could look like]]></summary></entry><entry><title type="html">a post with code diff</title><link href="https://lancegui.github.io/blog/2024/code-diff/" rel="alternate" type="text/html" title="a post with code diff"/><published>2024-01-27T19:22:00+00:00</published><updated>2024-01-27T19:22:00+00:00</updated><id>https://lancegui.github.io/blog/2024/code-diff</id><content type="html" xml:base="https://lancegui.github.io/blog/2024/code-diff/"><![CDATA[<p>You can display diff code by using the regular markdown syntax:</p> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">```</span><span class="nl">diff
-</span><span class="gh">diff --git a/sample.js b/sample.js
-index 0000001..0ddf2ba
-</span><span class="gd">--- a/sample.js
-</span><span class="gi">+++ b/sample.js
-</span><span class="p">@@ -1 +1 @@</span>
-<span class="gd">-console.log("Hello World!")
-</span><span class="gi">+console.log("Hello from Diff2Html!")</span>
-<span class="p">```</span>
-</code></pre></div></div> <p>Which generates:</p> <div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gh">diff --git a/sample.js b/sample.js
-index 0000001..0ddf2ba
-</span><span class="gd">--- a/sample.js
-</span><span class="gi">+++ b/sample.js
-</span><span class="p">@@ -1 +1 @@</span>
-<span class="gd">-console.log("Hello World!")
-</span><span class="gi">+console.log("Hello from Diff2Html!")
-</span></code></pre></div></div> <p>But this is difficult to read, specially if you have a large diff. You can use <a href="https://diff2html.xyz/">diff2html</a> to display a more readable version of the diff. For this, just use <code class="language-plaintext highlighter-rouge">diff2html</code> instead of <code class="language-plaintext highlighter-rouge">diff</code> for the code block language:</p> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">```</span><span class="nl">diff2html
-</span><span class="sb">diff --git a/sample.js b/sample.js
-index 0000001..0ddf2ba
---- a/sample.js
-+++ b/sample.js
-@@ -1 +1 @@
--console.log("Hello World!")
-+console.log("Hello from Diff2Html!")</span>
-<span class="p">```</span>
-</code></pre></div></div> <p>If we use a longer example, for example <a href="https://github.com/rtfpessoa/diff2html/commit/c2c253d3e3f8b8b267f551e659f72b44ca2ac927">this commit from diff2html</a>, it will generate the following output:</p> <pre><code class="language-diff2html">From 2aaae31cc2a37bfff83430c2c914b140bee59b6a Mon Sep 17 00:00:00 2001
-From: Rodrigo Fernandes &lt;rtfrodrigo@gmail.com&gt;
-Date: Sun, 9 Oct 2016 16:41:54 +0100
-Subject: [PATCH 1/2] Initial template override support
-
+<span class="gs">**Status:**</span> Draft
+<span class="gs">**Goal:**</span> Build a spreadsheet-ready legal dataset across all 50 states plus DC.
+<span class="gs">**Sources:**</span> Official legislature, judiciary, and agency websites only.
+<span class="gs">**Research use:**</span> Difference-in-differences, event study, descriptive legal mapping, or policy surveillance.
+<span class="p">
 ---
- scripts/hulk.js                    |  4 ++--
- src/diff2html.js                   |  3 +--
- src/file-list-printer.js           | 11 ++++++++---
- src/hoganjs-utils.js               | 29 +++++++++++++++++------------
- src/html-printer.js                |  6 ++++++
- src/line-by-line-printer.js        |  6 +++++-
- src/side-by-side-printer.js        |  6 +++++-
- test/file-list-printer-tests.js    |  2 +-
- test/hogan-cache-tests.js          | 18 +++++++++++++++---
- test/line-by-line-tests.js         |  3 +--
- test/side-by-side-printer-tests.js |  3 +--
- 11 files changed, 62 insertions(+), 29 deletions(-)
+</span>
+<span class="gu">## Overview</span>
 
-diff --git a/scripts/hulk.js b/scripts/hulk.js
-index 5a793c18..a4b1a4d5 100755
---- a/scripts/hulk.js
-+++ b/scripts/hulk.js
-@@ -173,11 +173,11 @@ function namespace(name) {
- // write a template foreach file that matches template extension
- templates = extractFiles(options.argv.remain)
-   .map(function(file) {
--    var openedFile = fs.readFileSync(file, 'utf-8');
-+    var openedFile = fs.readFileSync(file, 'utf-8').trim();
-     var name;
-     if (!openedFile) return;
-     name = namespace(path.basename(file).replace(/\..*$/, ''));
--    openedFile = removeByteOrderMark(openedFile.trim());
-+    openedFile = removeByteOrderMark(openedFile);
-     openedFile = wrap(file, name, openedFile);
-     if (!options.outputdir) return openedFile;
-     fs.writeFileSync(path.join(options.outputdir, name + '.js')
-diff --git a/src/diff2html.js b/src/diff2html.js
-index 21b0119e..64e138f5 100644
---- a/src/diff2html.js
-+++ b/src/diff2html.js
-@@ -7,7 +7,6 @@
+Build a legal dataset covering whether, when, and how each jurisdiction regulates the target policy. The final output should support empirical research and be auditable by another researcher.
 
- (function() {
-   var diffParser = require('./diff-parser.js').DiffParser;
--  var fileLister = require('./file-list-printer.js').FileListPrinter;
-   var htmlPrinter = require('./html-printer.js').HtmlPrinter;
-
-   function Diff2Html() {
-@@ -43,7 +42,7 @@
-
-     var fileList = '';
-     if (configOrEmpty.showFiles === true) {
--      fileList = fileLister.generateFileList(diffJson, configOrEmpty);
-+      fileList = htmlPrinter.generateFileListSummary(diffJson, configOrEmpty);
-     }
-
-     var diffOutput = '';
-diff --git a/src/file-list-printer.js b/src/file-list-printer.js
-index e408d9b2..1e0a2c61 100644
---- a/src/file-list-printer.js
-+++ b/src/file-list-printer.js
-@@ -8,11 +8,16 @@
- (function() {
-   var printerUtils = require('./printer-utils.js').PrinterUtils;
-
--  var hoganUtils = require('./hoganjs-utils.js').HoganJsUtils;
-+  var hoganUtils;
-+
-   var baseTemplatesPath = 'file-summary';
-   var iconsBaseTemplatesPath = 'icon';
-
--  function FileListPrinter() {
-+  function FileListPrinter(config) {
-+    this.config = config;
-+
-+    var HoganJsUtils = require('./hoganjs-utils.js').HoganJsUtils;
-+    hoganUtils = new HoganJsUtils(config);
-   }
-
-   FileListPrinter.prototype.generateFileList = function(diffFiles) {
-@@ -38,5 +43,5 @@
-     });
-   };
-
--  module.exports.FileListPrinter = new FileListPrinter();
-+  module.exports.FileListPrinter = FileListPrinter;
- })();
-diff --git a/src/hoganjs-utils.js b/src/hoganjs-utils.js
-index 9949e5fa..0dda08d7 100644
---- a/src/hoganjs-utils.js
-+++ b/src/hoganjs-utils.js
-@@ -8,18 +8,19 @@
- (function() {
-   var fs = require('fs');
-   var path = require('path');
--
-   var hogan = require('hogan.js');
-
-   var hoganTemplates = require('./templates/diff2html-templates.js');
-
--  var templatesPath = path.resolve(__dirname, 'templates');
-+  var extraTemplates;
-
--  function HoganJsUtils() {
-+  function HoganJsUtils(configuration) {
-+    this.config = configuration || {};
-+    extraTemplates = this.config.templates || {};
-   }
-
--  HoganJsUtils.prototype.render = function(namespace, view, params, configuration) {
--    var template = this.template(namespace, view, configuration);
-+  HoganJsUtils.prototype.render = function(namespace, view, params) {
-+    var template = this.template(namespace, view);
-     if (template) {
-       return template.render(params);
-     }
-@@ -27,17 +28,16 @@
-     return null;
-   };
-
--  HoganJsUtils.prototype.template = function(namespace, view, configuration) {
--    var config = configuration || {};
-+  HoganJsUtils.prototype.template = function(namespace, view) {
-     var templateKey = this._templateKey(namespace, view);
-
--    return this._getTemplate(templateKey, config);
-+    return this._getTemplate(templateKey);
-   };
-
--  HoganJsUtils.prototype._getTemplate = function(templateKey, config) {
-+  HoganJsUtils.prototype._getTemplate = function(templateKey) {
-     var template;
-
--    if (!config.noCache) {
-+    if (!this.config.noCache) {
-       template = this._readFromCache(templateKey);
-     }
-
-@@ -53,6 +53,7 @@
-
-     try {
-       if (fs.readFileSync) {
-+        var templatesPath = path.resolve(__dirname, 'templates');
-         var templatePath = path.join(templatesPath, templateKey);
-         var templateContent = fs.readFileSync(templatePath + '.mustache', 'utf8');
-         template = hogan.compile(templateContent);
-@@ -66,12 +67,16 @@
-   };
-
-   HoganJsUtils.prototype._readFromCache = function(templateKey) {
--    return hoganTemplates[templateKey];
-+    return extraTemplates[templateKey] || hoganTemplates[templateKey];
-   };
-
-   HoganJsUtils.prototype._templateKey = function(namespace, view) {
-     return namespace + '-' + view;
-   };
-
--  module.exports.HoganJsUtils = new HoganJsUtils();
-+  HoganJsUtils.prototype.compile = function(templateStr) {
-+    return hogan.compile(templateStr);
-+  };
-+
-+  module.exports.HoganJsUtils = HoganJsUtils;
- })();
-diff --git a/src/html-printer.js b/src/html-printer.js
-index 585d5b66..13f83047 100644
---- a/src/html-printer.js
-+++ b/src/html-printer.js
-@@ -8,6 +8,7 @@
- (function() {
-   var LineByLinePrinter = require('./line-by-line-printer.js').LineByLinePrinter;
-   var SideBySidePrinter = require('./side-by-side-printer.js').SideBySidePrinter;
-+  var FileListPrinter = require('./file-list-printer.js').FileListPrinter;
-
-   function HtmlPrinter() {
-   }
-@@ -22,5 +23,10 @@
-     return sideBySidePrinter.generateSideBySideJsonHtml(diffFiles);
-   };
-
-+  HtmlPrinter.prototype.generateFileListSummary = function(diffJson, config) {
-+    var fileListPrinter = new FileListPrinter(config);
-+    return fileListPrinter.generateFileList(diffJson);
-+  };
-+
-   module.exports.HtmlPrinter = new HtmlPrinter();
- })();
-diff --git a/src/line-by-line-printer.js b/src/line-by-line-printer.js
-index b07eb53c..d230bedd 100644
---- a/src/line-by-line-printer.js
-+++ b/src/line-by-line-printer.js
-@@ -11,7 +11,8 @@
-   var utils = require('./utils.js').Utils;
-   var Rematch = require('./rematch.js').Rematch;
-
--  var hoganUtils = require('./hoganjs-utils.js').HoganJsUtils;
-+  var hoganUtils;
-+
-   var genericTemplatesPath = 'generic';
-   var baseTemplatesPath = 'line-by-line';
-   var iconsBaseTemplatesPath = 'icon';
-@@ -19,6 +20,9 @@
-
-   function LineByLinePrinter(config) {
-     this.config = config;
-+
-+    var HoganJsUtils = require('./hoganjs-utils.js').HoganJsUtils;
-+    hoganUtils = new HoganJsUtils(config);
-   }
-
-   LineByLinePrinter.prototype.makeFileDiffHtml = function(file, diffs) {
-diff --git a/src/side-by-side-printer.js b/src/side-by-side-printer.js
-index bbf1dc8d..5e3033b3 100644
---- a/src/side-by-side-printer.js
-+++ b/src/side-by-side-printer.js
-@@ -11,7 +11,8 @@
-   var utils = require('./utils.js').Utils;
-   var Rematch = require('./rematch.js').Rematch;
-
--  var hoganUtils = require('./hoganjs-utils.js').HoganJsUtils;
-+  var hoganUtils;
-+
-   var genericTemplatesPath = 'generic';
-   var baseTemplatesPath = 'side-by-side';
-   var iconsBaseTemplatesPath = 'icon';
-@@ -26,6 +27,9 @@
-
-   function SideBySidePrinter(config) {
-     this.config = config;
-+
-+    var HoganJsUtils = require('./hoganjs-utils.js').HoganJsUtils;
-+    hoganUtils = new HoganJsUtils(config);
-   }
-
-   SideBySidePrinter.prototype.makeDiffHtml = function(file, diffs) {
-diff --git a/test/file-list-printer-tests.js b/test/file-list-printer-tests.js
-index a502a46f..60ea3208 100644
---- a/test/file-list-printer-tests.js
-+++ b/test/file-list-printer-tests.js
-@@ -1,6 +1,6 @@
- var assert = require('assert');
-
--var fileListPrinter = require('../src/file-list-printer.js').FileListPrinter;
-+var fileListPrinter = new (require('../src/file-list-printer.js').FileListPrinter)();
-
- describe('FileListPrinter', function() {
-   describe('generateFileList', function() {
-diff --git a/test/hogan-cache-tests.js b/test/hogan-cache-tests.js
-index 190bf6f8..3bb754ac 100644
---- a/test/hogan-cache-tests.js
-+++ b/test/hogan-cache-tests.js
-@@ -1,6 +1,6 @@
- var assert = require('assert');
-
--var HoganJsUtils = require('../src/hoganjs-utils.js').HoganJsUtils;
-+var HoganJsUtils = new (require('../src/hoganjs-utils.js').HoganJsUtils)();
- var diffParser = require('../src/diff-parser.js').DiffParser;
-
- describe('HoganJsUtils', function() {
-@@ -21,16 +21,28 @@ describe('HoganJsUtils', function() {
-       });
-       assert.equal(emptyDiffHtml, result);
-     });
-+
-     it('should render view without cache', function() {
-       var result = HoganJsUtils.render('generic', 'empty-diff', {
-         contentClass: 'd2h-code-line',
-         diffParser: diffParser
-       }, {noCache: true});
--      assert.equal(emptyDiffHtml + '\n', result);
-+      assert.equal(emptyDiffHtml, result);
-     });
-+
-     it('should return null if template is missing', function() {
--      var result = HoganJsUtils.render('generic', 'missing-template', {}, {noCache: true});
-+      var hoganUtils = new (require('../src/hoganjs-utils.js').HoganJsUtils)({noCache: true});
-+      var result = hoganUtils.render('generic', 'missing-template', {});
-       assert.equal(null, result);
-     });
-+
-+    it('should allow templates to be overridden', function() {
-+      var emptyDiffTemplate = HoganJsUtils.compile('&lt;p&gt;&lt;/p&gt;');
-+
-+      var config = {templates: {'generic-empty-diff': emptyDiffTemplate}};
-+      var hoganUtils = new (require('../src/hoganjs-utils.js').HoganJsUtils)(config);
-+      var result = hoganUtils.render('generic', 'empty-diff', {myName: 'Rodrigo Fernandes'});
-+      assert.equal('&lt;p&gt;Rodrigo Fernandes&lt;/p&gt;', result);
-+    });
-   });
- });
-diff --git a/test/line-by-line-tests.js b/test/line-by-line-tests.js
-index 1cd92073..8869b3df 100644
---- a/test/line-by-line-tests.js
-+++ b/test/line-by-line-tests.js
-@@ -14,7 +14,7 @@ describe('LineByLinePrinter', function() {
-         '            File without changes\n' +
-         '        &lt;/div&gt;\n' +
-         '    &lt;/td&gt;\n' +
--        '&lt;/tr&gt;\n';
-+        '&lt;/tr&gt;';
-
-       assert.equal(expected, fileHtml);
-     });
-@@ -422,7 +422,6 @@ describe('LineByLinePrinter', function() {
-         '        &lt;/div&gt;\n' +
-         '    &lt;/td&gt;\n' +
-         '&lt;/tr&gt;\n' +
--        '\n' +
-         '                &lt;/tbody&gt;\n' +
-         '            &lt;/table&gt;\n' +
-         '        &lt;/div&gt;\n' +
-diff --git a/test/side-by-side-printer-tests.js b/test/side-by-side-printer-tests.js
-index 76625f8e..771daaa5 100644
---- a/test/side-by-side-printer-tests.js
-+++ b/test/side-by-side-printer-tests.js
-@@ -14,7 +14,7 @@ describe('SideBySidePrinter', function() {
-         '            File without changes\n' +
-         '        &lt;/div&gt;\n' +
-         '    &lt;/td&gt;\n' +
--        '&lt;/tr&gt;\n';
-+        '&lt;/tr&gt;';
-
-       assert.equal(expectedRight, fileHtml.right);
-       assert.equal(expectedLeft, fileHtml.left);
-@@ -324,7 +324,6 @@ describe('SideBySidePrinter', function() {
-         '        &lt;/div&gt;\n' +
-         '    &lt;/td&gt;\n' +
-         '&lt;/tr&gt;\n' +
--        '\n' +
-         '                    &lt;/tbody&gt;\n' +
-         '                &lt;/table&gt;\n' +
-         '            &lt;/div&gt;\n' +
-
-From f3cadb96677d0eb82fc2752dc3ffbf35ca9b5bdb Mon Sep 17 00:00:00 2001
-From: Rodrigo Fernandes &lt;rtfrodrigo@gmail.com&gt;
-Date: Sat, 15 Oct 2016 13:21:22 +0100
-Subject: [PATCH 2/2] Allow uncompiled templates
-
+The dataset should include:
+<span class="p">
+-</span> Statute citations
+<span class="p">-</span> Official source URLs
+<span class="p">-</span> Enactment or effective dates when available
+<span class="p">-</span> Core legal requirements
+<span class="p">-</span> Exceptions or exclusions
+<span class="p">-</span> Procedural steps
+<span class="p">-</span> Notes for ambiguous cases
+<span class="p">-</span> A provenance trail for every coding decision
+<span class="p">
 ---
- README.md                 |  3 +++
- src/hoganjs-utils.js      |  7 +++++++
- test/hogan-cache-tests.js | 24 +++++++++++++++++++++++-
- 3 files changed, 33 insertions(+), 1 deletion(-)
+</span>
+<span class="gu">## Architecture Decisions</span>
 
-diff --git a/README.md b/README.md
-index 132c8a28..46909f25 100644
---- a/README.md
-+++ b/README.md
-@@ -98,6 +98,9 @@ The HTML output accepts a Javascript object with configuration. Possible options
-   - `synchronisedScroll`: scroll both panes in side-by-side mode: `true` or `false`, default is `false`
-   - `matchWordsThreshold`: similarity threshold for word matching, default is 0.25
-   - `matchingMaxComparisons`: perform at most this much comparisons for line matching a block of changes, default is `2500`
-+  - `templates`: object with previously compiled templates to replace parts of the html
-+  - `rawTemplates`: object with raw not compiled templates to replace parts of the html
-+  &gt; For more information regarding the possible templates look into [src/templates](https://github.com/rtfpessoa/diff2html/tree/master/src/templates)
+| Decision | Rationale |
+|---|---|
+| Start with well-documented states | Calibrates the schema before scaling |
+| Use official sources for final coding | Improves reproducibility and legal accuracy |
+| Save raw sources before cleaning | Makes the dataset auditable |
+| Pilot before parallelization | Prevents scaling a bad schema |
+| Use explicit coding conventions | Makes regression variables easier to construct |
+| Use Git checkpoints | Makes AI edits reversible |
+<span class="p">
+---
+</span>
+<span class="gu">## Output Schema</span>
 
- ## Diff2HtmlUI Helper
+| # | Column | Type | Coding Convention |
+|---|---|---|---|
+| 1 | State | String | Full state name |
+| 2 | Policy_Status | Categorical | Yes / No / Unclear |
+| 3 | Statute_Citation | String | Official citation or "No statute found" |
+| 4 | Statute_Title | String | Official title or section heading |
+| 5 | Year_Enacted | Numeric/String | Year or "Not stated" |
+| 6 | Effective_Date | String | Date or "Not stated" |
+| 7 | Key_Definition | String | Relevant statutory definition |
+| 8 | Covered_Population | String | Who is covered |
+| 9 | Requirement_1 | Categorical | Yes / No / Not stated / Unclear |
+| 10 | Requirement_2 | Categorical | Yes / No / Not stated / Unclear |
+| 11 | Exception_1 | Categorical | Yes / No / Not stated / Unclear |
+| 12 | Enforcement_Agency | String | Agency or "Not stated" |
+| 13 | Procedure_or_Process | String | Short description |
+| 14 | Penalty_or_Consequence | String | Penalty, consequence, or "Not stated" |
+| 15 | Official_Form_Found | Categorical | Yes / No / Local only |
+| 16 | Form_Name | String | Official title or "Not found" |
+| 17 | Statute_URL | String | Official URL |
+| 18 | Form_URL | String | Official URL or "Not found" |
+| 19 | Notes | String | Ambiguity, caveats, legal interpretation |
+| 20 | Search_Terms_Used | String | Useful for failed searches |
+| 21 | Date_Accessed | Date | Date source was accessed |
+<span class="p">
+---
+</span>
+<span class="gu">## Official Source Strategy</span>
 
-diff --git a/src/hoganjs-utils.js b/src/hoganjs-utils.js
-index 0dda08d7..b2e9c275 100644
---- a/src/hoganjs-utils.js
-+++ b/src/hoganjs-utils.js
-@@ -17,6 +17,13 @@
-   function HoganJsUtils(configuration) {
-     this.config = configuration || {};
-     extraTemplates = this.config.templates || {};
-+
-+    var rawTemplates = this.config.rawTemplates || {};
-+    for (var templateName in rawTemplates) {
-+      if (rawTemplates.hasOwnProperty(templateName)) {
-+        if (!extraTemplates[templateName]) extraTemplates[templateName] = this.compile(rawTemplates[templateName]);
-+      }
-+    }
-   }
+For each state, search in this order:
+<span class="p">
+1.</span> Official legislature or code website
+<span class="p">2.</span> Official judiciary website
+<span class="p">3.</span> Official agency website
+<span class="p">4.</span> State search portal
+<span class="p">5.</span> County or local pages only if statewide forms are not available
 
-   HoganJsUtils.prototype.render = function(namespace, view, params) {
-diff --git a/test/hogan-cache-tests.js b/test/hogan-cache-tests.js
-index 3bb754ac..a34839c0 100644
---- a/test/hogan-cache-tests.js
-+++ b/test/hogan-cache-tests.js
-@@ -36,7 +36,7 @@ describe('HoganJsUtils', function() {
-       assert.equal(null, result);
-     });
+Do not use secondary sources for final coding unless explicitly marked as a cross-check.
+<span class="p">
+---
+</span>
+<span class="gu">## Task List</span>
 
--    it('should allow templates to be overridden', function() {
-+    it('should allow templates to be overridden with compiled templates', function() {
-       var emptyDiffTemplate = HoganJsUtils.compile('&lt;p&gt;&lt;/p&gt;');
+<span class="gu">### Phase 0: Schema + Setup</span>
+<span class="p">
+-</span> [ ] Finalize column schema
+<span class="p">-</span> [ ] Create CSV template with headers
+<span class="p">-</span> [ ] Create raw source folder
+<span class="p">-</span> [ ] Create notes folder
+<span class="p">-</span> [ ] Create <span class="sb">`README.md`</span> for the dataset
+<span class="p">-</span> [ ] Commit the empty structure with Git
 
-       var config = {templates: {'generic-empty-diff': emptyDiffTemplate}};
-@@ -44,5 +44,27 @@ describe('HoganJsUtils', function() {
-       var result = hoganUtils.render('generic', 'empty-diff', {myName: 'Rodrigo Fernandes'});
-       assert.equal('&lt;p&gt;Rodrigo Fernandes&lt;/p&gt;', result);
-     });
-+
-+    it('should allow templates to be overridden with uncompiled templates', function() {
-+      var emptyDiffTemplate = '&lt;p&gt;&lt;/p&gt;';
-+
-+      var config = {rawTemplates: {'generic-empty-diff': emptyDiffTemplate}};
-+      var hoganUtils = new (require('../src/hoganjs-utils.js').HoganJsUtils)(config);
-+      var result = hoganUtils.render('generic', 'empty-diff', {myName: 'Rodrigo Fernandes'});
-+      assert.equal('&lt;p&gt;Rodrigo Fernandes&lt;/p&gt;', result);
-+    });
-+
-+    it('should allow templates to be overridden giving priority to compiled templates', function() {
-+      var emptyDiffTemplate = HoganJsUtils.compile('&lt;p&gt;&lt;/p&gt;');
-+      var emptyDiffTemplateUncompiled = '&lt;p&gt;Not used!&lt;/p&gt;';
-+
-+      var config = {
-+        templates: {'generic-empty-diff': emptyDiffTemplate},
-+        rawTemplates: {'generic-empty-diff': emptyDiffTemplateUncompiled}
-+      };
-+      var hoganUtils = new (require('../src/hoganjs-utils.js').HoganJsUtils)(config);
-+      var result = hoganUtils.render('generic', 'empty-diff', {myName: 'Rodrigo Fernandes'});
-+      assert.equal('&lt;p&gt;Rodrigo Fernandes&lt;/p&gt;', result);
-+    });
-   });
- });
-</code></pre>]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="code"/><summary type="html"><![CDATA[this is how you can display code diffs]]></summary></entry><entry><title type="html">a post with advanced image components</title><link href="https://lancegui.github.io/blog/2024/advanced-images/" rel="alternate" type="text/html" title="a post with advanced image components"/><published>2024-01-27T11:46:00+00:00</published><updated>2024-01-27T11:46:00+00:00</updated><id>https://lancegui.github.io/blog/2024/advanced-images</id><content type="html" xml:base="https://lancegui.github.io/blog/2024/advanced-images/"><![CDATA[<p>This is an example post with advanced image components.</p> <h2 id="image-slider">Image Slider</h2> <p>This is a simple image slider. It uses the <a href="https://swiperjs.com/">Swiper</a> library. Check the <a href="https://swiperjs.com/demos">examples page</a> for more information of what you can achieve with it.</p> <swiper-container keyboard="true" navigation="true" pagination="true" pagination-clickable="true" pagination-dynamic-bullets="true" rewind="true"> <swiper-slide> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/9.jpg" sizes="95vw"/> <img src="/assets/img/9.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> </swiper-slide> <swiper-slide> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/7.jpg" sizes="95vw"/> <img src="/assets/img/7.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> </swiper-slide> <swiper-slide> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/8.jpg" sizes="95vw"/> <img src="/assets/img/8.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> </swiper-slide> <swiper-slide> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/10.jpg" sizes="95vw"/> <img src="/assets/img/10.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> </swiper-slide> <swiper-slide> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/12.jpg" sizes="95vw"/> <img src="/assets/img/12.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> </swiper-slide> </swiper-container> <h2 id="image-comparison-slider">Image Comparison Slider</h2> <p>This is a simple image comparison slider. It uses the <a href="https://img-comparison-slider.sneas.io/">img-comparison-slider</a> library. Check the <a href="https://img-comparison-slider.sneas.io/examples.html">examples page</a> for more information of what you can achieve with it.</p> <img-comparison-slider> <figure slot="first"> <picture> <source class="responsive-img-srcset" srcset="/assets/img/prof_pic.jpg" sizes="95vw"/> <img src="/assets/img/prof_pic.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="lazy" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> <figure slot="second"> <picture> <source class="responsive-img-srcset" srcset="/assets/img/prof_pic_color.png" sizes="95vw"/> <img src="/assets/img/prof_pic_color.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="lazy" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> </img-comparison-slider>]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="images"/><summary type="html"><![CDATA[this is what advanced image components could look like]]></summary></entry><entry><title type="html">a post with vega lite</title><link href="https://lancegui.github.io/blog/2024/vega-lite/" rel="alternate" type="text/html" title="a post with vega lite"/><published>2024-01-27T00:20:00+00:00</published><updated>2024-01-27T00:20:00+00:00</updated><id>https://lancegui.github.io/blog/2024/vega-lite</id><content type="html" xml:base="https://lancegui.github.io/blog/2024/vega-lite/"><![CDATA[<p>This is an example post with some <a href="https://vega.github.io/vega-lite/">vega lite</a> code.</p> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">```</span><span class="nl">vega_lite
-</span><span class="sb">{
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "A dot plot showing each movie in the database, and the difference from the average movie rating. The display is sorted by year to visualize everything in sequential order. The graph is for all Movies before 2019.",
-  "data": {
-    "url": "https://raw.githubusercontent.com/vega/vega/main/docs/data/movies.json"
-  },
-  "transform": [
-    {"filter": "datum['IMDB Rating'] != null"},
-    {"filter": {"timeUnit": "year", "field": "Release Date", "range": [null, 2019]}},
-    {
-      "joinaggregate": [{
-        "op": "mean",
-        "field": "IMDB Rating",
-        "as": "AverageRating"
-      }]
-    },
-    {
-      "calculate": "datum['IMDB Rating'] - datum.AverageRating",
-      "as": "RatingDelta"
-    }
-  ],
-  "mark": "point",
-  "encoding": {
-    "x": {
-      "field": "Release Date",
-      "type": "temporal"
-    },
-    "y": {
-      "field": "RatingDelta",
-      "type": "quantitative",
-      "title": "Rating Delta"
-    },
-    "color": {
-      "field": "RatingDelta",
-      "type": "quantitative",
-      "scale": {"domainMid": 0},
-      "title": "Rating Delta"
-    }
-  }
-}</span>
+<span class="gu">### Checkpoint 0</span>
+<span class="p">
+-</span> [ ] Schema reviewed
+<span class="p">-</span> [ ] Coding conventions defined
+<span class="p">-</span> [ ] Source rules written down
+<span class="p">
+---
+</span>
+<span class="gu">### Phase 1: Pilot States</span>
+
+Choose 3 to 5 states that are likely to be well documented.
+
+For each pilot state:
+<span class="p">
+1.</span> Locate official statute
+<span class="p">2.</span> Save raw HTML or PDF
+<span class="p">3.</span> Code every schema field
+<span class="p">4.</span> Search for official forms or agency guidance
+<span class="p">5.</span> Record URLs and date accessed
+<span class="p">6.</span> Flag unclear fields
+
+<span class="gu">### Checkpoint 1: Schema Calibration</span>
+<span class="p">
+-</span> [ ] Review pilot codings
+<span class="p">-</span> [ ] Identify confusing fields
+<span class="p">-</span> [ ] Revise schema if needed
+<span class="p">-</span> [ ] Update coding rules before scaling
+<span class="p">
+---
+</span>
+<span class="gu">### Phase 2: Batch Research</span>
+
+Split the remaining states into batches.
+
+Example:
+<span class="p">
+-</span> <span class="gs">**Batch A:**</span> 10 states
+<span class="p">-</span> <span class="gs">**Batch B:**</span> 10 states
+<span class="p">-</span> <span class="gs">**Batch C:**</span> 10 states
+<span class="p">-</span> <span class="gs">**Batch D:**</span> 10 states
+<span class="p">-</span> <span class="gs">**Batch E:**</span> Remaining states plus DC
+
+Each batch agent should:
+<span class="p">
+1.</span> Search official sources
+<span class="p">2.</span> Save raw files
+<span class="p">3.</span> Code structured rows
+<span class="p">4.</span> Record uncertainty in <span class="sb">`Notes`</span>
+<span class="p">5.</span> Avoid guessing
+<span class="p">6.</span> Return a CSV fragment and a short summary
+
+<span class="gu">### Checkpoint 2: Batch QC</span>
+<span class="p">
+-</span> [ ] Every state has a row
+<span class="p">-</span> [ ] Every row has an official source URL or explicit "No statute found"
+<span class="p">-</span> [ ] Ambiguous fields are marked "Unclear"
+<span class="p">-</span> [ ] Notes explain uncertainty
+<span class="p">-</span> [ ] URLs are official sources
+<span class="p">
+---
+</span>
+<span class="gu">### Phase 3: Consolidation + Quality Control</span>
+<span class="p">
+-</span> [ ] Merge batch CSV files
+<span class="p">-</span> [ ] Check duplicate states
+<span class="p">-</span> [ ] Check missing citations
+<span class="p">-</span> [ ] Check inconsistent coding values
+<span class="p">-</span> [ ] Cross-check against secondary sources only as validation
+<span class="p">-</span> [ ] Create summary lists:
+<span class="p">  -</span> States with no clear statute
+<span class="p">  -</span> States with ambiguous coding
+<span class="p">  -</span> States needing manual review
+<span class="p">  -</span> States with missing official forms
+<span class="p">  -</span> States with unusual legal structures
+
+<span class="gu">### Checkpoint 3</span>
+<span class="p">
+-</span> [ ] CSV loads cleanly in R or Python
+<span class="p">-</span> [ ] No unexpected missing values
+<span class="p">-</span> [ ] All URLs spot-checked
+<span class="p">-</span> [ ] Manual-review list created
+<span class="p">
+---
+</span>
+<span class="gu">### Phase 4: Final Deliverables</span>
+<span class="p">
+-</span> [ ] Write final CSV
+<span class="p">-</span> [ ] Write methodology note
+<span class="p">-</span> [ ] Write data dictionary
+<span class="p">-</span> [ ] Write limitations section
+<span class="p">-</span> [ ] Update project <span class="sb">`README.md`</span>
+<span class="p">-</span> [ ] Commit final outputs with Git
+<span class="p">
+---
+</span>
+<span class="gu">## Risks and Mitigations</span>
+
+| Risk | Impact | Mitigation |
+|---|---|---|
+| Official URLs break | High | Save raw files and date accessed |
+| Legal language varies across states | High | Use <span class="sb">`Notes`</span> and mark unclear fields |
+| Some states use unusual terminology | Medium | Save search terms and alternate terms |
+| Forms are local rather than statewide | Medium | Mark "Local only" and record locality |
+| AI infers too much | High | Tell the agent to flag uncertainty instead of guessing |
+| Parallel agents code inconsistently | High | Pilot first, then lock schema |
+<span class="p">
+---
+</span>
+<span class="gu">## Parallelization Map</span>
+
+<span class="p">```</span><span class="nl">text
+</span>Phase 0: setup
+  |
+  +-- Phase 1: pilot states
+        |
+        +-- Checkpoint 1: schema calibration
+              |
+              +-- Phase 2: parallel state batches
+                    |
+                    +-- Phase 3: merge + QC
+                          |
+                          +-- Phase 4: final deliverables
 <span class="p">```</span>
-</code></pre></div></div> <p>Which generates:</p> <pre><code class="language-vega_lite">{
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "A dot plot showing each movie in the database, and the difference from the average movie rating. The display is sorted by year to visualize everything in sequential order. The graph is for all Movies before 2019.",
-  "data": {
-    "url": "https://raw.githubusercontent.com/vega/vega/main/docs/data/movies.json"
-  },
-  "transform": [
-    {"filter": "datum['IMDB Rating'] != null"},
-    {"filter": {"timeUnit": "year", "field": "Release Date", "range": [null, 2019]}},
-    {
-      "joinaggregate": [{
-        "op": "mean",
-        "field": "IMDB Rating",
-        "as": "AverageRating"
-      }]
-    },
-    {
-      "calculate": "datum['IMDB Rating'] - datum.AverageRating",
-      "as": "RatingDelta"
-    }
-  ],
-  "mark": "point",
-  "encoding": {
-    "x": {
-      "field": "Release Date",
-      "type": "temporal"
-    },
-    "y": {
-      "field": "RatingDelta",
-      "type": "quantitative",
-      "title": "Rating Delta"
-    },
-    "color": {
-      "field": "RatingDelta",
-      "type": "quantitative",
-      "scale": {"domainMid": 0},
-      "title": "Rating Delta"
-    }
-  }
-}
-</code></pre> <p>This plot supports both light and dark themes.</p>]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="charts"/><summary type="html"><![CDATA[this is what included vega lite code could look like]]></summary></entry><entry><title type="html">a post with geojson</title><link href="https://lancegui.github.io/blog/2024/geojson-map/" rel="alternate" type="text/html" title="a post with geojson"/><published>2024-01-26T17:57:00+00:00</published><updated>2024-01-26T17:57:00+00:00</updated><id>https://lancegui.github.io/blog/2024/geojson-map</id><content type="html" xml:base="https://lancegui.github.io/blog/2024/geojson-map/"><![CDATA[<p>This is an example post with some <a href="https://geojson.org/">geojson</a> code. The support is provided thanks to <a href="https://leafletjs.com/">Leaflet</a>. To create your own visualization, go to <a href="https://geojson.io/">geojson.io</a>.</p> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">```</span><span class="nl">geojson
-</span><span class="sb">{
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "coordinates": [
-          [
-            [
-              -60.11363029935569,
-              -2.904625022183211
-            ],
-            [
-              -60.11363029935569,
-              -3.162613728707967
-            ],
-            [
-              -59.820894493858034,
-              -3.162613728707967
-            ],
-            [
-              -59.820894493858034,
-              -2.904625022183211
-            ],
-            [
-              -60.11363029935569,
-              -2.904625022183211
-            ]
-          ]
-        ],
-        "type": "Polygon"
-      }
-    }
-  ]
-}</span>
-<span class="p">```</span>
-</code></pre></div></div> <p>Which generates:</p> <pre><code class="language-geojson">{
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "coordinates": [
-          [
-            [
-              -60.11363029935569,
-              -2.904625022183211
-            ],
-            [
-              -60.11363029935569,
-              -3.162613728707967
-            ],
-            [
-              -59.820894493858034,
-              -3.162613728707967
-            ],
-            [
-              -59.820894493858034,
-              -2.904625022183211
-            ],
-            [
-              -60.11363029935569,
-              -2.904625022183211
-            ]
-          ]
-        ],
-        "type": "Polygon"
-      }
-    }
-  ]
-}
-</code></pre>]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="charts"/><category term="maps"/><summary type="html"><![CDATA[this is what included geojson code could look like]]></summary></entry><entry><title type="html">a post with echarts</title><link href="https://lancegui.github.io/blog/2024/echarts/" rel="alternate" type="text/html" title="a post with echarts"/><published>2024-01-26T16:03:00+00:00</published><updated>2024-01-26T16:03:00+00:00</updated><id>https://lancegui.github.io/blog/2024/echarts</id><content type="html" xml:base="https://lancegui.github.io/blog/2024/echarts/"><![CDATA[<p>This is an example post with some <a href="https://echarts.apache.org/">echarts</a> code.</p> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">```</span><span class="nl">echarts
-</span><span class="sb">{
-  "title": {
-    "text": "ECharts Getting Started Example"
-  },
-  "responsive": true,
-  "tooltip": {},
-  "legend": {
-    "top": "30px",
-    "data": ["sales"]
-  },
-  "xAxis": {
-    "data": ["Shirts", "Cardigans", "Chiffons", "Pants", "Heels", "Socks"]
-  },
-  "yAxis": {},
-  "series": [
-    {
-      "name": "sales",
-      "type": "bar",
-      "data": [5, 20, 36, 10, 10, 20]
-    }
-  ]
-}</span>
-<span class="p">```</span>
-</code></pre></div></div> <p>Which generates:</p> <pre><code class="language-echarts">{
-  "title": {
-    "text": "ECharts Getting Started Example"
-  },
-  "responsive": true,
-  "tooltip": {},
-  "legend": {
-    "top": "30px",
-    "data": ["sales"]
-  },
-  "xAxis": {
-    "data": ["Shirts", "Cardigans", "Chiffons", "Pants", "Heels", "Socks"]
-  },
-  "yAxis": {},
-  "series": [
-    {
-      "name": "sales",
-      "type": "bar",
-      "data": [5, 20, 36, 10, 10, 20]
-    }
-  ]
-}
-</code></pre> <p>Note that this library offer support for both light and dark themes. You can switch between them using the theme switcher in the top right corner of the page.</p>]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="charts"/><summary type="html"><![CDATA[this is what included echarts code could look like]]></summary></entry></feed>
+<span class="p">
+---
+</span>
+<span class="gu">## Acceptance Criteria</span>
+<span class="p">
+-</span> [ ] One row per jurisdiction
+<span class="p">-</span> [ ] Official citation or explicit "No statute found"
+<span class="p">-</span> [ ] Official URL for each positive coding
+<span class="p">-</span> [ ] Ambiguous cases marked "Unclear"
+<span class="p">-</span> [ ] Raw sources saved
+<span class="p">-</span> [ ] Dataset loads cleanly in R or Python
+<span class="p">-</span> [ ] Methodology note explains source rules
+<span class="p">-</span> [ ] Manual-review list exists
+<span class="p">-</span> [ ] Git history contains checkpoints
+</code></pre></div> </div> </div> </details> <p><strong>LLMs are sprinters, not marathon runners.</strong> The trick is to build a track where many short sprints add up to real research.</p>]]></content><author><name></name></author><category term="research"/><category term="ai"/><category term="research"/><category term="coding"/><category term="llm"/><category term="economics"/><summary type="html"><![CDATA[A plain-English guide to turning AI into a practical research workflow with local models, coding harnesses, MCP, skills, Git, and law scraping.]]></summary></entry></feed>
