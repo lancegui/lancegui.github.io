@@ -163,7 +163,7 @@ Then open your user settings.
 
 <figure>
   <img src="/assets/img/ai-workflow-vscode-claude-env-vars.png" alt="VS Code settings JSON showing Claude Code environment variables" style="width: 100%; max-width: 100%; height: auto;">
-  <figcaption>This is the block to edit when routing Claude Code through another compatible API endpoint. Hide your real API key before sharing screenshots.</figcaption>
+  <figcaption>This is the block to edit when routing Claude Code through another compatible API endpoint.</figcaption>
 </figure>
 
 Add this block to VS Code `settings.json`:
