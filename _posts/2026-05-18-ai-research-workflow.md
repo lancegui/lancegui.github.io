@@ -58,6 +58,30 @@ The stack in this post is simple:
 
 The stack matters because research is cumulative. A chat box forgets the project shape. A harness can work inside the folder where your paper, code, data, logs, screenshots, and notes already live.
 
+## Before you start
+
+If you want to copy the workflow, make sure these pieces are installed first:
+
+1. [VS Code](https://code.visualstudio.com/)
+2. [LM Studio](https://lmstudio.ai/)
+3. The Claude Code extension inside VS Code, or the terminal version of Claude Code
+4. [Node.js](https://nodejs.org/) so commands like `npx` work
+5. [Git](https://git-scm.com/) so project changes are reversible
+
+There are two common ways to use Claude Code:
+
+- **VS Code extension:** This is the path I show in the screenshots. You edit VS Code's `settings.json`, restart VS Code, and use Claude Code inside the editor.
+- **Terminal app:** This is the path many API integration guides use. Install Claude Code in the terminal, set environment variables, enter a project folder, and run `claude`.
+
+You do not need all of them on day one. The smallest useful path is:
+
+1. Install LM Studio.
+2. Download and load a model.
+3. Start LM Studio's local server.
+4. Point Claude Code at `http://localhost:1234`.
+5. Restart VS Code.
+6. Ask Claude Code a small question and confirm the local model answers.
+
 ## Start with the machine you already have
 
 If you use an Apple Silicon MacBook, meaning M1 or newer, you already have a surprisingly good local AI machine.
@@ -123,7 +147,7 @@ For local models, LM Studio documents this directly in its [Claude Code integrat
 
 My main interest is using this inside VS Code because that is where most of my code lives.
 
-First, make sure the Claude Code extension is installed and enabled.
+First, make sure the Claude Code extension is installed and enabled. If you prefer terminal Claude Code, the same endpoint idea applies, but you will set environment variables in your shell instead of editing VS Code's `settings.json`.
 
 <figure>
   <img src="/assets/img/ai-workflow-vscode-claude-code-extension.png" alt="VS Code extension marketplace showing Claude Code for VS Code installed" style="width: 100%; max-width: 100%; height: auto;">
@@ -153,6 +177,14 @@ Add this block to VS Code `settings.json`:
 
 Restart VS Code after changing the settings.
 
+Then test it with something small:
+
+```text
+Using the local model, summarize the files in this folder in three bullets.
+```
+
+If Claude Code responds, the routing worked. If it fails, check three things first: LM Studio's server is running, a model is loaded, and the port is still `1234`.
+
 Now Claude Code is working inside your VS Code project, but the model can be local. It is not magic. It is plumbing. A lot of applied AI is getting the plumbing right.
 
 ## Keep the model swappable
@@ -163,7 +195,7 @@ You can use:
 
 - A local model for cheap, private, offline tasks
 - Claude for difficult coding and long-context reasoning
-- DeepSeek or another lower-cost API model when price matters
+- DeepSeek or another lower-cost API model when price and context length matter
 
 This is one of the most important practical lessons: do not marry one model. Build a workflow where different models can plug into the same research environment.
 
@@ -173,7 +205,24 @@ The same logic applies to harnesses. [Cline](https://github.com/cline/cline) has
 
 Sometimes I want the best model I can get. Sometimes I want a cheaper model because I am scraping many pages. Sometimes I want a local model because I am offline. The harness makes those choices less painful.
 
-Here is the pattern for routing Claude Code to a different compatible API endpoint:
+DeepSeek is the example I use here because it sits in a useful middle ground. It is not the same as saying DeepSeek is always smarter than Claude or ChatGPT. For the hardest reasoning tasks, I still want the strongest frontier model available. But a lot of research work is not one heroic answer. It is many medium-difficulty steps: reading pages, extracting fields, checking citations, summarizing failures, cleaning logs, and keeping a long project in view.
+
+For that kind of work, DeepSeek can be very cost effective. Its current API docs list `deepseek-v4-pro` and `deepseek-v4-flash` with a 1M context length, an Anthropic-compatible endpoint, and low per-token prices, especially when context caching hits. Check the live [DeepSeek models and pricing page](https://api-docs.deepseek.com/quick_start/pricing/) before using it heavily, because API prices change.
+
+The large context is the other reason I care. In practice, many research-agent jobs need more room for plans, source excerpts, logs, schema notes, and previous decisions. A model with a huge context window can feel more useful than a slightly smarter model that keeps running out of room. And once the model is inside a harness with MCP tools, Git checkpoints, and good skills, the practical difference can be surprisingly hard to see on routine tasks. The harness is doing a lot of the work.
+
+To get a DeepSeek API key:
+
+1. Go to the [DeepSeek Platform](https://platform.deepseek.com/).
+2. Sign in or create an account.
+3. Open the API keys page.
+4. Create a new key.
+5. Copy it once and store it somewhere safe, such as a password manager or environment variable.
+6. Add balance on the billing or top-up page if the platform requires it for your account.
+
+DeepSeek's docs show both OpenAI-compatible and Anthropic-compatible API formats. For Claude Code, the useful one is the Anthropic-compatible base URL: `https://api.deepseek.com/anthropic`. DeepSeek also has a [Claude Code integration guide](https://api-docs.deepseek.com/guides/agent_integrations/claude_code) with the same environment-variable pattern.
+
+Here is the pattern for routing Claude Code to DeepSeek. Replace `YOUR API KEY` with the key you created:
 
 ```json
 "claudeCode.environmentVariables": [
@@ -212,7 +261,32 @@ Here is the pattern for routing Claude Code to a different compatible API endpoi
 ]
 ```
 
-You can see the pattern. To make Claude Code run on something other than Anthropic's models, you point it to another compatible endpoint and set the model names.
+Restart VS Code after changing the settings. Then test with a small request before sending a large job:
+
+```text
+What model are you using, and what is the current project folder?
+```
+
+You can see the pattern. To make Claude Code run on something other than Anthropic's models, you point it to another compatible endpoint, set the model names, restart the harness, and test with a small request.
+
+If you use terminal Claude Code instead of the VS Code extension, the same settings become shell environment variables:
+
+```bash
+export ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
+export ANTHROPIC_AUTH_TOKEN=YOUR_API_KEY
+export ANTHROPIC_MODEL=deepseek-v4-pro[1m]
+export ANTHROPIC_DEFAULT_OPUS_MODEL=deepseek-v4-pro[1m]
+export ANTHROPIC_DEFAULT_SONNET_MODEL=deepseek-v4-pro[1m]
+export ANTHROPIC_DEFAULT_HAIKU_MODEL=deepseek-v4-flash
+export CLAUDE_CODE_SUBAGENT_MODEL=deepseek-v4-flash
+export CLAUDE_CODE_EFFORT_LEVEL=max
+```
+
+Then enter your project folder and run:
+
+```bash
+claude
+```
 
 One issue I noticed: web search may not work the same way with DeepSeek. One workaround is to give Claude Code this gist and ask it to implement the web-search bridge: [arbipher/f959c14de7a9e09c78a2b162bc6f1ec9](https://gist.github.com/arbipher/f959c14de7a9e09c78a2b162bc6f1ec9). Modern LLMs are good enough that you often do not need to fully understand every detail of the workaround. You still need to verify that it works.
 
@@ -229,6 +303,8 @@ Copy-paste install for Claude Code:
 ```bash
 claude mcp add playwright npx @playwright/mcp@latest
 ```
+
+This command assumes Node.js is installed, because it uses `npx`. If your terminal says `npx` is missing, install Node.js first and try again.
 
 Or you can ask Claude Code to install `microsoft/playwright-mcp` for you. This is a good example of vibe coding: you do not always need to remember the exact command if the agent can look up and apply the setup.
 
@@ -264,6 +340,16 @@ The risk grows after the conversation fills the context window and the system ha
 So I try to make the plan explicit before the model starts doing serious work. I use a planning skill in my own setup, and I recommend studying public skill collections like [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills). There are skills for planning, testing, Git workflows, visual review, and parallel agents. [obra/superpowers](https://github.com/obra/superpowers) has a similar spirit. You can use both styles at the same time.
 
 Git is worth mentioning again here, even for non-technical readers. Git is version control. It lets you save checkpoints and go back when something breaks. The important idea is simple: before letting an AI edit a project, make it easy to undo the edits. That is better than trusting a rewind button in a chat app.
+
+For a new project folder, the basic pattern is:
+
+```bash
+git init
+git add .
+git commit -m "Start project"
+```
+
+After that, ask the agent to check `git status` before it edits files and to commit important checkpoints as it goes.
 
 Skills also make parallel agents more useful. Instead of one model slowly doing everything, you can send smaller jobs to multiple agents: one checks sources, one writes a scraper, one reviews output, one drafts documentation. This can be powerful, but it can also burn through your subscription or API budget very quickly.
 
