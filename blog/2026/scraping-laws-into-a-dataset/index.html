@@ -1,0 +1,235 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta name="google-site-verification" content="googleaea2f262c5a0c405"> <meta http-equiv="Permissions-Policy" content="interest-cohort=()"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> Scraping laws into a research dataset with AI agents | Lance Gui </title> <meta name="author" content="Lance Gui"> <meta name="description" content="How I use AI coding agents, a browser tool, and a written plan to build auditable 50-state legal datasets that do not exist yet."> <meta name="keywords" content="Lance Gui"> <link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="/assets/img/UA_Logo.png?28b02114ba0c3db29ed61bf78d1fe812"> <link rel="stylesheet" href="/assets/css/main.css?f352540e93a939b995b620f48c4bd43d"> <link rel="canonical" href="https://lancegui.github.io/blog/2026/scraping-laws-into-a-dataset/"> <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>initTheme();</script> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> Lance Gui </a> <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse text-right" id="navbarNav"> <ul class="navbar-nav ml-auto flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">About </a> </li> <li class="nav-item "> <a class="nav-link" href="/cv/">CV </a> </li> <li class="nav-item "> <a class="nav-link" href="/research/">Research </a> </li> <li class="nav-item active"> <a class="nav-link" href="/blog/">Blog </a> </li> <li class="nav-item "> <a class="nav-link" href="/teaching/">Teaching </a> </li> <li class="toggle-container"> <button id="light-toggle" title="Change theme"> <i class="ti ti-sun-moon" id="light-toggle-system"></i> <i class="ti ti-moon-filled" id="light-toggle-dark"></i> <i class="ti ti-sun-filled" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">Scraping laws into a research dataset with AI agents</h1> <p class="post-meta"> Created in May 25, 2026 </p> <p class="post-tags"> <a href="/blog/2026"> <i class="fa-solid fa-calendar fa-sm"></i> 2026 </a>   ·   <a href="/blog/category/research"> <i class="fa-solid fa-tag fa-sm"></i> research</a> </p> </header> <article class="post-content"> <div id="table-of-contents"> <ul id="toc" class="section-nav"> <li class="toc-entry toc-h2"><a href="#what-a-legal-dataset-has-to-answer">What a legal dataset has to answer</a></li> <li class="toc-entry toc-h2"><a href="#a-workflow-that-works">A workflow that works</a></li> <li class="toc-entry toc-h2"><a href="#use-a-browser-tool-for-hard-sites">Use a browser tool for hard sites</a></li> <li class="toc-entry toc-h2"><a href="#parallel-agents-and-git-checkpoints">Parallel agents and Git checkpoints</a></li> <li class="toc-entry toc-h2"><a href="#watch-the-cost">Watch the cost</a></li> <li class="toc-entry toc-h2"><a href="#copy-paste-plan-template">Copy-paste plan template</a></li> </ul> </div> <hr> <div id="markdown-content"> <p>Economists often need datasets that do not exist yet. Suppose you want to study a law across all fifty states. The hard part is usually not the regression. The hard part is building the dataset from scratch, one statute at a time.</p> <p>This post is about doing that with AI coding agents: a browser tool to reach the pages, parallel agents to cover the states, and a written plan so the work stays auditable. It pairs with <a href="/blog/2026/ai-research-workflow/">my local model guide</a> and <a href="/blog/2026/merging-ai-skills-into-your-field/">my post on building research skills</a>, but it stands on its own.</p> <h2 id="what-a-legal-dataset-has-to-answer">What a legal dataset has to answer</h2> <p>When you study a law across states, the dataset has to answer a long list of questions, and each one is a column you have to fill by hand or by agent:</p> <ul> <li>Which states have the law?</li> <li>When did the law pass?</li> <li>When did it take effect?</li> <li>What exact statutory text changed?</li> <li>Which definitions matter?</li> <li>Are there thresholds, exemptions, or sunset dates?</li> <li>Did later amendments change the treatment?</li> </ul> <p>This is exactly where AI helps, but only if you use it carefully. The model is good at reading a statute and pulling out fields. It is dangerous when it guesses instead of flagging that it does not know.</p> <h2 id="a-workflow-that-works">A workflow that works</h2> <p>My preferred workflow looks like this:</p> <ol> <li>Use a planning skill, <code class="language-plaintext highlighter-rouge">/agent-skills</code>, or <code class="language-plaintext highlighter-rouge">/superpowers</code> to create a plan.</li> <li>Design the schema before scraping: variables, enactment dates, effective dates, legal definitions, petitions, exemptions, and sources.</li> <li>Tell the agent to use Git before editing code or data files.</li> <li>Save the plan locally. If the agent does not save it, explicitly ask it to create a plan file.</li> <li>Run the workflow on a few states first.</li> <li>Review the output and revise the plan. Some laws will not look like what you expected.</li> <li>Use parallel agents only after the pilot looks reasonable.</li> <li>Use Playwright MCP when ordinary scraping gets stuck on browser interactions.</li> <li>Ask the agent to write a summary of what it found, what failed, and what still needs human review.</li> <li>Repeat until the dataset is good enough to audit.</li> </ol> <p>There will be problems. In web scraping, there are always problems. Browsers fail, pages change, legal search portals behave strangely, and some states organize statutes in surprising ways. That is why the plan and summary must be saved locally. The model will drift less, and you will know what happened when you return to the project later.</p> <p>Your job is to keep the plan updated, keep the summary updated, and create enough checkpoints that one bad pass does not ruin the project.</p> <h2 id="use-a-browser-tool-for-hard-sites">Use a browser tool for hard sites</h2> <p>Many research tasks require the agent to do something outside the chat box. Many websites are not simple static HTML pages either. Some require clicks, search boxes, login flows, or JavaScript, and a plain scraper stalls on them.</p> <p>The tool I reach for is <a href="https://github.com/microsoft/playwright-mcp" rel="external nofollow noopener" target="_blank">microsoft/playwright-mcp</a>. Playwright is a browser automation tool. With Playwright MCP, an agent can open a real browser, click buttons, fill forms, and inspect pages. It should still respect logins, terms of service, and access rules.</p> <p>Copy-paste install for Claude Code:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>claude mcp add playwright npx @playwright/mcp@latest
+</code></pre></div></div> <p>This command assumes Node.js is installed, because it uses <code class="language-plaintext highlighter-rouge">npx</code>. If your terminal says <code class="language-plaintext highlighter-rouge">npx</code> is missing, install Node.js first and try again. You can also just ask Claude Code to install <code class="language-plaintext highlighter-rouge">microsoft/playwright-mcp</code> for you.</p> <p>After restarting Claude Code, test it:</p> <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Use playwright to navigate to https://example.com and tell me the page title.
+</code></pre></div></div> <p>If that works, the agent has a browser tool. This is a large change for scraping. If you have used Selenium before, you know how annoying it is to figure out which button maps to which script. Now the model can often operate the browser directly, and it can use text understanding while it navigates. That matters when the same legal idea is described in different words across states.</p> <h2 id="parallel-agents-and-git-checkpoints">Parallel agents and Git checkpoints</h2> <p>Once the schema is locked, the work is embarrassingly parallel: one batch of states per agent. Instead of one model slowly doing everything, you can send smaller jobs to several agents at once: one checks sources, one writes a scraper, one reviews output, one drafts documentation. Skills make this cleaner, because each agent loads the same instructions. I keep my own research habits as <a href="/blog/2026/merging-ai-skills-into-your-field/">skills</a> so the agents stay consistent.</p> <p>Git matters here even for non-technical readers. Git is version control. It lets you save checkpoints and go back when something breaks. The important idea is simple: before letting an AI edit a project, make it easy to undo the edits. That is better than trusting a rewind button in a chat app.</p> <p>For a new project folder, the basic pattern is:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git init
+git add <span class="nb">.</span>
+git commit <span class="nt">-m</span> <span class="s2">"Start project"</span>
+</code></pre></div></div> <p>After that, ask the agent to check <code class="language-plaintext highlighter-rouge">git status</code> before it edits files and to commit important checkpoints as it goes.</p> <h2 id="watch-the-cost">Watch the cost</h2> <p>Once you add a browser tool and parallel agents, AI can get expensive fast.</p> <p>I once burned through a five-hour Claude Pro session in about ten minutes by scraping websites and running agents in parallel. That is funny once. It is less funny if it becomes your research workflow.</p> <p>There are three ways to handle this:</p> <ol> <li>Pay for a larger subscription.</li> <li>Use pay-as-you-go APIs.</li> <li>Route cheaper tasks to cheaper or local models.</li> </ol> <p>The third option is the most interesting. Use the expensive frontier model for the parts that need judgment. Use local or cheaper models for the repetitive parts: page extraction, cleaning, first-pass classification, logging, formatting, and sanity checks.</p> <p>The rule of thumb is simple:</p> <blockquote> <p>Spend frontier-model attention where judgment matters. Spend cheap-model attention where repetition matters.</p> </blockquote> <h2 id="copy-paste-plan-template">Copy-paste plan template</h2> <p>Here is the kind of <code class="language-plaintext highlighter-rouge">plan.md</code> I want the agent to create before serious scraping starts. This is adapted from a real project plan, but I removed the specific law and issue area. The point is the structure.</p> <details> <summary><strong>Open generic <code>plan.md</code> template</strong></summary> <div style="max-height: 520px; overflow: auto; border: 1px solid var(--global-divider-color); padding: 1rem; margin-top: 1rem; border-radius: 6px;"> <div class="language-markdown highlighter-rouge"> <div class="highlight"><pre class="highlight"><code><span class="gh"># Implementation Plan: 50-State Legal Dataset</span>
+
+<span class="gs">**Status:**</span> Draft
+<span class="gs">**Goal:**</span> Build a spreadsheet-ready legal dataset across all 50 states plus DC.
+<span class="gs">**Sources:**</span> Official legislature, judiciary, and agency websites only.
+<span class="gs">**Research use:**</span> Difference-in-differences, event study, descriptive legal mapping, or policy surveillance.
+<span class="p">
+---
+</span>
+<span class="gu">## Overview</span>
+
+Build a legal dataset covering whether, when, and how each jurisdiction regulates the target policy. The final output should support empirical research and be auditable by another researcher.
+
+The dataset should include:
+<span class="p">
+-</span> Statute citations
+<span class="p">-</span> Official source URLs
+<span class="p">-</span> Enactment or effective dates when available
+<span class="p">-</span> Core legal requirements
+<span class="p">-</span> Exceptions or exclusions
+<span class="p">-</span> Procedural steps
+<span class="p">-</span> Notes for ambiguous cases
+<span class="p">-</span> A provenance trail for every coding decision
+<span class="p">
+---
+</span>
+<span class="gu">## Architecture Decisions</span>
+
+| Decision | Rationale |
+|---|---|
+| Start with well-documented states | Calibrates the schema before scaling |
+| Use official sources for final coding | Improves reproducibility and legal accuracy |
+| Save raw sources before cleaning | Makes the dataset auditable |
+| Pilot before parallelization | Prevents scaling a bad schema |
+| Use explicit coding conventions | Makes regression variables easier to construct |
+| Use Git checkpoints | Makes AI edits reversible |
+<span class="p">
+---
+</span>
+<span class="gu">## Output Schema</span>
+
+| # | Column | Type | Coding Convention |
+|---|---|---|---|
+| 1 | State | String | Full state name |
+| 2 | Policy_Status | Categorical | Yes / No / Unclear |
+| 3 | Statute_Citation | String | Official citation or "No statute found" |
+| 4 | Statute_Title | String | Official title or section heading |
+| 5 | Year_Enacted | Numeric/String | Year or "Not stated" |
+| 6 | Effective_Date | String | Date or "Not stated" |
+| 7 | Key_Definition | String | Relevant statutory definition |
+| 8 | Covered_Population | String | Who is covered |
+| 9 | Requirement_1 | Categorical | Yes / No / Not stated / Unclear |
+| 10 | Requirement_2 | Categorical | Yes / No / Not stated / Unclear |
+| 11 | Exception_1 | Categorical | Yes / No / Not stated / Unclear |
+| 12 | Enforcement_Agency | String | Agency or "Not stated" |
+| 13 | Procedure_or_Process | String | Short description |
+| 14 | Penalty_or_Consequence | String | Penalty, consequence, or "Not stated" |
+| 15 | Official_Form_Found | Categorical | Yes / No / Local only |
+| 16 | Form_Name | String | Official title or "Not found" |
+| 17 | Statute_URL | String | Official URL |
+| 18 | Form_URL | String | Official URL or "Not found" |
+| 19 | Notes | String | Ambiguity, caveats, legal interpretation |
+| 20 | Search_Terms_Used | String | Useful for failed searches |
+| 21 | Date_Accessed | Date | Date source was accessed |
+<span class="p">
+---
+</span>
+<span class="gu">## Official Source Strategy</span>
+
+For each state, search in this order:
+<span class="p">
+1.</span> Official legislature or code website
+<span class="p">2.</span> Official judiciary website
+<span class="p">3.</span> Official agency website
+<span class="p">4.</span> State search portal
+<span class="p">5.</span> County or local pages only if statewide forms are not available
+
+Do not use secondary sources for final coding unless explicitly marked as a cross-check.
+<span class="p">
+---
+</span>
+<span class="gu">## Task List</span>
+
+<span class="gu">### Phase 0: Schema + Setup</span>
+<span class="p">
+-</span> [ ] Finalize column schema
+<span class="p">-</span> [ ] Create CSV template with headers
+<span class="p">-</span> [ ] Create raw source folder
+<span class="p">-</span> [ ] Create notes folder
+<span class="p">-</span> [ ] Create <span class="sb">`README.md`</span> for the dataset
+<span class="p">-</span> [ ] Commit the empty structure with Git
+
+<span class="gu">### Checkpoint 0</span>
+<span class="p">
+-</span> [ ] Schema reviewed
+<span class="p">-</span> [ ] Coding conventions defined
+<span class="p">-</span> [ ] Source rules written down
+<span class="p">
+---
+</span>
+<span class="gu">### Phase 1: Pilot States</span>
+
+Choose 3 to 5 states that are likely to be well documented.
+
+For each pilot state:
+<span class="p">
+1.</span> Locate official statute
+<span class="p">2.</span> Save raw HTML or PDF
+<span class="p">3.</span> Code every schema field
+<span class="p">4.</span> Search for official forms or agency guidance
+<span class="p">5.</span> Record URLs and date accessed
+<span class="p">6.</span> Flag unclear fields
+
+<span class="gu">### Checkpoint 1: Schema Calibration</span>
+<span class="p">
+-</span> [ ] Review pilot codings
+<span class="p">-</span> [ ] Identify confusing fields
+<span class="p">-</span> [ ] Revise schema if needed
+<span class="p">-</span> [ ] Update coding rules before scaling
+<span class="p">
+---
+</span>
+<span class="gu">### Phase 2: Batch Research</span>
+
+Split the remaining states into batches.
+
+Example:
+<span class="p">
+-</span> <span class="gs">**Batch A:**</span> 10 states
+<span class="p">-</span> <span class="gs">**Batch B:**</span> 10 states
+<span class="p">-</span> <span class="gs">**Batch C:**</span> 10 states
+<span class="p">-</span> <span class="gs">**Batch D:**</span> 10 states
+<span class="p">-</span> <span class="gs">**Batch E:**</span> Remaining states plus DC
+
+Each batch agent should:
+<span class="p">
+1.</span> Search official sources
+<span class="p">2.</span> Save raw files
+<span class="p">3.</span> Code structured rows
+<span class="p">4.</span> Record uncertainty in <span class="sb">`Notes`</span>
+<span class="p">5.</span> Avoid guessing
+<span class="p">6.</span> Return a CSV fragment and a short summary
+
+<span class="gu">### Checkpoint 2: Batch QC</span>
+<span class="p">
+-</span> [ ] Every state has a row
+<span class="p">-</span> [ ] Every row has an official source URL or explicit "No statute found"
+<span class="p">-</span> [ ] Ambiguous fields are marked "Unclear"
+<span class="p">-</span> [ ] Notes explain uncertainty
+<span class="p">-</span> [ ] URLs are official sources
+<span class="p">
+---
+</span>
+<span class="gu">### Phase 3: Consolidation + Quality Control</span>
+<span class="p">
+-</span> [ ] Merge batch CSV files
+<span class="p">-</span> [ ] Check duplicate states
+<span class="p">-</span> [ ] Check missing citations
+<span class="p">-</span> [ ] Check inconsistent coding values
+<span class="p">-</span> [ ] Cross-check against secondary sources only as validation
+<span class="p">-</span> [ ] Create summary lists:
+<span class="p">  -</span> States with no clear statute
+<span class="p">  -</span> States with ambiguous coding
+<span class="p">  -</span> States needing manual review
+<span class="p">  -</span> States with missing official forms
+<span class="p">  -</span> States with unusual legal structures
+
+<span class="gu">### Checkpoint 3</span>
+<span class="p">
+-</span> [ ] CSV loads cleanly in R or Python
+<span class="p">-</span> [ ] No unexpected missing values
+<span class="p">-</span> [ ] All URLs spot-checked
+<span class="p">-</span> [ ] Manual-review list created
+<span class="p">
+---
+</span>
+<span class="gu">### Phase 4: Final Deliverables</span>
+<span class="p">
+-</span> [ ] Write final CSV
+<span class="p">-</span> [ ] Write methodology note
+<span class="p">-</span> [ ] Write data dictionary
+<span class="p">-</span> [ ] Write limitations section
+<span class="p">-</span> [ ] Update project <span class="sb">`README.md`</span>
+<span class="p">-</span> [ ] Commit final outputs with Git
+<span class="p">
+---
+</span>
+<span class="gu">## Risks and Mitigations</span>
+
+| Risk | Impact | Mitigation |
+|---|---|---|
+| Official URLs break | High | Save raw files and date accessed |
+| Legal language varies across states | High | Use <span class="sb">`Notes`</span> and mark unclear fields |
+| Some states use unusual terminology | Medium | Save search terms and alternate terms |
+| Forms are local rather than statewide | Medium | Mark "Local only" and record locality |
+| AI infers too much | High | Tell the agent to flag uncertainty instead of guessing |
+| Parallel agents code inconsistently | High | Pilot first, then lock schema |
+<span class="p">
+---
+</span>
+<span class="gu">## Parallelization Map</span>
+
+<span class="p">```</span><span class="nl">text
+</span>Phase 0: setup
+  |
+  +-- Phase 1: pilot states
+        |
+        +-- Checkpoint 1: schema calibration
+              |
+              +-- Phase 2: parallel state batches
+                    |
+                    +-- Phase 3: merge + QC
+                          |
+                          +-- Phase 4: final deliverables
+<span class="p">```</span>
+<span class="p">
+---
+</span>
+<span class="gu">## Acceptance Criteria</span>
+<span class="p">
+-</span> [ ] One row per jurisdiction
+<span class="p">-</span> [ ] Official citation or explicit "No statute found"
+<span class="p">-</span> [ ] Official URL for each positive coding
+<span class="p">-</span> [ ] Ambiguous cases marked "Unclear"
+<span class="p">-</span> [ ] Raw sources saved
+<span class="p">-</span> [ ] Dataset loads cleanly in R or Python
+<span class="p">-</span> [ ] Methodology note explains source rules
+<span class="p">-</span> [ ] Manual-review list exists
+<span class="p">-</span> [ ] Git history contains checkpoints
+</code></pre></div> </div> </div> </details> <p><strong>LLMs are sprinters, not marathon runners.</strong> The trick is to build a track where many short sprints add up to real research.</p> </div> </article> <br> <hr> <br> <ul class="list-disc pl-8"></ul> <h2 class="text-3xl font-semibold mb-4 mt-12">Enjoy Reading This Article?</h2> <p class="mb-2">Here are some more articles you might like to read next:</p> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2026/merging-ai-skills-into-your-field/">Integrate multiple battle-tested software agent skills into a workflow in economics</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2026/ai-research-workflow/">A local model implementation guide for research</a> </li> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Lance Gui. Last updated: June 14, 2026. </div> </footer> <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <script src="/assets/js/bootstrap.bundle.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js" type="text/javascript"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script> <script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script> <script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script> <script defer src="/assets/js/copy_code.js?12775fdf7f95e901d7119054556e495f" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script> <script type="text/javascript">window.MathJax={tex:{tags:"ams"}};</script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script> <script async src="https://www.googletagmanager.com/gtag/js?id=G-4V0VP6QZJB"></script> <script>function gtag(){window.dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-4V0VP6QZJB");</script> <script type="text/javascript">function progressBarSetup(){"max"in document.createElement("progress")?(initializeProgressElement(),$(document).on("scroll",function(){progressBar.attr({value:getCurrentScrollPosition()})}),$(window).on("resize",initializeProgressElement)):(resizeProgressBar(),$(document).on("scroll",resizeProgressBar),$(window).on("resize",resizeProgressBar))}function getCurrentScrollPosition(){return $(window).scrollTop()}function initializeProgressElement(){let e=$("#navbar").outerHeight(!0);$("body").css({"padding-top":e}),$("progress-container").css({"padding-top":e}),progressBar.css({top:e}),progressBar.attr({max:getDistanceToScroll(),value:getCurrentScrollPosition()})}function getDistanceToScroll(){return $(document).height()-$(window).height()}function resizeProgressBar(){progressBar.css({width:getWidthPercentage()+"%"})}function getWidthPercentage(){return getCurrentScrollPosition()/getDistanceToScroll()*100}const progressBar=$("#progress");window.onload=function(){setTimeout(progressBarSetup,50)};</script> <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script> <script>addBackToTop();</script> </body> </html>
