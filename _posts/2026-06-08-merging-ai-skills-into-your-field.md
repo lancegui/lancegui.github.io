@@ -1,17 +1,19 @@
 ---
 layout: post
-title: "Adapting other people's AI skills to my own field"
+title: "Integrate multiple battle-tested software agent skills into a workflow in economics"
 date: 2026-06-08 12:00:00
-description: "I took three AI skill systems built for software (superpowers, Andrej Karpathy's notes, and ECC), blended them with my own judgment as an economist, and refined the mix over about a week into a skill for data analysis and causal inference."
+description: "The software agent skills were useful but unsatisfying on real data, so I wrote a new set for data's silent failures and combined four battle-tested skill systems (superpowers, Karpathy's notes, ECC, and planning-with-files) into Causal Powers, a Claude Code plugin for economics."
+card_blurb: "I merged battle-tested AI agent skills into one economics workflow."
+card_link_text: "click here →"
 tags: ai skills economics causal-inference llm
 categories: research
 toc:
   beginning: true
 ---
 
-People are building "skills" for AI coding agents: small instruction packets that tell the agent how to do a repeated task. If MCP gives a model hands, skills give it habits, which I wrote about in [an earlier post](/blog/2026/ai-research-workflow/). Almost all of them are built for software engineering. Testing, debugging, code review, git.
+People are building "skills" for AI coding agents: small instruction packets that tell the agent how to do a repeated task. If MCP gives a model hands, skills give it habits. Almost all of them are built for software engineering. Testing, debugging, code review, git.
 
-I work in economics, not software, so I did not write one from scratch. I took three of these skill systems, blended them with my own judgment about my field, and refined the combination over about a week until it fit the way I work. The result is [Causal Powers](https://github.com/lancegui/causal-powers), a skill family for data analysis and causal inference.
+I work in economics, not software. When I first ran these software skills on real research, the discipline was genuinely useful, but it was unsatisfying the moment it touched real data. The workflow was built to catch bugs that crash. The bugs that end careers in data work do not crash; they run clean and hand you a confident, wrong answer. So I did two things: I wrote a new set of skills built for those silent failures, and I combined the few outside skills that turned out to be instrumental. The result is [Causal Powers](https://github.com/lancegui/causal-powers), now a Claude Code plugin for data analysis, causal inference, and econometrics.
 
 > **The whole idea:** you do not have to build a skill, or even pick one. Borrow several, mix in what you already know about your field, and iterate on real work until the result is yours.
 {: .block-tip}
@@ -28,7 +30,7 @@ This post is how that went, including what I got wrong.
 
 The rest is built from those three.
 
-## The three I borrowed from
+## The skills I borrowed from
 
 **[superpowers](https://github.com/obra/superpowers)**, by Jesse Vincent, gave me the skeleton. Its idea is that skills are not suggestions but mandatory workflows that fire before the agent acts: brainstorm before you build, write the test before the code, debug systematically, pass a review gate before calling something done. It ships the whole apparatus: a gateway skill that routes to the others, a session hook, subagents, and review gates. I kept the shape and threw out the software.
 
@@ -36,11 +38,13 @@ The rest is built from those three.
 
 **[ECC](https://github.com/affaan-m/ecc)**, by Affaan Mustafa, gave me the always-on layer. Skills only fire when the agent recognizes the task, but some discipline has to hold every time. ECC's layered design (and superpowers' own session hook) showed me how: a small block of non-negotiable rules injected at the start of every session, so the discipline is the default instead of something the agent has to remember.
 
-None of this was a clean inheritance. I took the skeleton from one, the craft from another, and the always-on layer from a third. The judgment about my own field was the part I had to add.
+**[planning-with-files](https://github.com/othmanadi/planning-with-files)**, by Othman Adi, gave me memory. Long analyses outrun the context window, and when the session compacts, decisions quietly get lost. Its idea is to keep the plan on disk: a written `analysis-plan.md` the agent ticks off and reloads, so the work survives a `/clear` or an auto-compaction. In data work that became the living plan every multi-step analysis writes before it runs, with a decisions log that records why each cleaning choice was made.
+
+None of this was a clean inheritance. I took the skeleton from one, the craft from another, the always-on layer from a third, and persistent memory from a fourth. The judgment about my own field was the part I had to add.
 
 ## The one move that made it work
 
-All three were built for software. None of them knew anything about a regression. What let them transfer was one observation:
+All four were built for software. None of them knew anything about a regression. What let them transfer was one observation:
 
 **In software, the dangerous bug is loud. In data analysis, it is silent.**
 
@@ -56,7 +60,7 @@ None of these raise an error. The code runs clean and hands you a confident, wro
 
 > A number you computed but never validated is a guess wearing a lab coat.
 
-So I kept the form and replaced the failure mode. The skeleton, the craft, and the always-on layer do not care what field you are in, so they stayed. The software content went, and I re-authored each skill around the silent failures of data work and the judgment a senior applied economist uses without thinking. The map was almost one-to-one:
+So I kept the form and replaced the failure mode. The skeleton, the craft, the always-on layer, and the plan on disk do not care what field you are in, so they stayed. The software content went, and I re-authored each skill around the silent failures of data work and the judgment a senior applied economist uses without thinking. The map was almost one-to-one:
 
 <div class="table-responsive">
 <table class="table table-bordered table-hover">
@@ -127,7 +131,9 @@ It had started quietly redesigning my analysis instead of asking. That complaint
 
 A wall of robustness checks is a sign an economist does not trust the result, not proof you should. The newest version proposes the two or three that would actually break the result, then stops. The capability I was proudest of was the one I had to rein in.
 
-Somewhere in there I also just told it to "mimic a senior econ professor at MIT." That was the part none of the three sources could give me, and it did the real work.
+Somewhere in there I also just told it to "mimic a senior econ professor at MIT." That was the part none of the borrowed sources could give me, and it did the real work.
+
+What started as one catch-all skill is now fourteen, wired into a plugin. There is an always-on layer injected at the start of every session, a router that re-surfaces the right skill on each prompt, a stop-gate that will not let me call an analysis done before it is verified, and subagents that fan robustness checks out in parallel. It also grew past reduced-form work. There is now a structural-estimation skill that makes me prove an estimator recovers known parameters by Monte Carlo before I trust it on real data, and re-solve equilibrium for a counterfactual instead of holding prices fixed. That, like causal identification, has no analog in the software skills I started from. It was the second thing only I could add.
 
 ## If you want to try it in your field
 
@@ -136,9 +142,9 @@ The economics is incidental. The shape is not:
 1. **Borrow, do not build.** Find a few skill systems you like. They will be built for software. Take the structure, not the content.
 2. **Add what only you know.** Work out your field's silent failures: what goes wrong without announcing itself, what an expert checks on instinct. That is the actual work, and no one can do it for you.
 3. **Iterate on real work.** Use the skill on a real task, watch what breaks, and feed the fix back through skill-creator. Each real failure is the next skill.
-4. **Keep an always-on layer** for the few rules that must never slip.
+4. **Keep an always-on layer, and a plan on disk.** A few rules must never slip, and a long analysis should not lose its plan when the context compacts.
 5. **Credit your sources.** Skills are a commons.
 
 Two examples from fields that are not mine. In law, a precedent that has been quietly overruled looks just like one that still stands, so the analog of a data contract is a check that a citation is still good law. In a lab, a batch effect (a result that tracks the day or the machine, not the biology) looks just like a discovery. Different field, same shape: find the failure that stays quiet, and build the skill that makes it loud.
 
-I did not build much here. Three people built a skill format, a sense of craft, and an always-on layer, and put them online for their own reasons. I added what I know about where data analysis quietly breaks, and a week of using the result until it fit. [Causal Powers](https://github.com/lancegui/causal-powers) is on GitHub, built on [superpowers](https://github.com/obra/superpowers), [Karpathy's notes](https://github.com/multica-ai/andrej-karpathy-skills), and [ECC](https://github.com/affaan-m/ecc). Borrow from it the way I borrowed from them.
+I did not build much here. Other people built a skill format, a sense of craft, an always-on layer, and a way to keep a plan on disk, and put them online for their own reasons. I added what I know about where data analysis quietly breaks, and a week of using the result until it fit. [Causal Powers](https://github.com/lancegui/causal-powers) is on GitHub, built on [superpowers](https://github.com/obra/superpowers), [Karpathy's notes](https://github.com/multica-ai/andrej-karpathy-skills), [ECC](https://github.com/affaan-m/ecc), and [planning-with-files](https://github.com/othmanadi/planning-with-files). You can install it with `/plugin marketplace add lancegui/causal-powers`. Borrow from it the way I borrowed from them.

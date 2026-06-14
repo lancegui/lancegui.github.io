@@ -14,15 +14,13 @@ selected_papers: false # includes a list of papers marked as "selected={true}"
 social: false # includes social icons at the bottom of the page
 ---
 
-Welcome!
+Welcome! I am Lance Gui.
 
-I am a Ph.D. candidate at the University of Arizona.
+I will be joining the University of Mannheim as a postdoctoral researcher in the fall of 2026. I received my PhD in Economics from the University of Arizona.
 
-My research interests are industrial organization and health economics.
+I am an applied microeconomist with research interests in industrial organization and health economics. I apply novel structural modeling methods to study policy-relevant questions, with a particular focus on substance-use-related markets.
 
-I will be joining the University of Mannheim as a Post-Doc.
-
-You can find my CV at <a href='cv/'>here</a>.
+You can find my CV <a href='cv/'>here</a>.
 
 
 You can reach me at <a href='mailto:gui@arizona.edu'>gui@arizona.edu</a>.

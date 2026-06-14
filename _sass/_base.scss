@@ -1305,3 +1305,60 @@ ninja-keys::part(ninja-input-wrapper) {
   background-color: var(--global-theme-color);
   color: var(--global-text-color);
 }
+
+// Front-page "new blog post" updates box
+.recent-posts {
+  background-color: var(--global-card-bg-color);
+  // subtle neutral tint layered over the card colour so it works in light + dark
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.025), rgba(0, 0, 0, 0.025));
+  border: 1px solid var(--global-divider-color);
+  border-right: 5px solid var(--global-theme-color);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin: 1.5em 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+
+  .recent-posts-title {
+    text-align: left;
+    font-size: 1.1rem;
+    font-weight: normal;
+    margin: 0;
+
+    a {
+      color: inherit;
+
+      &:hover {
+        color: var(--global-theme-color);
+      }
+    }
+  }
+
+  .recent-posts-divider {
+    border: 0;
+    border-top: 1px solid var(--global-divider-color);
+    margin: 0.6rem 0 0.85rem;
+  }
+
+  .recent-posts-list {
+    margin: 0;
+    padding-left: 1.2rem;
+
+    li {
+      margin-bottom: 0.5rem;
+      line-height: 1.5;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .recent-posts-link {
+    white-space: nowrap;
+  }
+}
+
+html[data-theme="dark"] .recent-posts {
+  // lighten instead of darken in dark mode
+  background-image: linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03));
+}
