@@ -14,7 +14,7 @@ selected_papers: false # includes a list of papers marked as "selected={true}"
 social: false # includes social icons at the bottom of the page
 ---
 
-Welcome! I am Lance Gui.
+Welcome!
 
 I will be joining the University of Mannheim as a postdoctoral researcher in the fall of 2026. I received my PhD in Economics from the University of Arizona.
 
