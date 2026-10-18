@@ -16,7 +16,7 @@ social: false # includes social icons at the bottom of the page
 
 Welcome!
 
-I am a postdoctoral researcher at the University of Mannheim. I received my PhD in Economics from the University of Arizona.
+I am a postdoctoral researcher at the University of Mannheim, affiliated with <a href='https://www.crctr224.de/' title='Collaborative Research Center Transregio 224'>CRC TR 224</a> and <a href='https://www.macci-mannheim.eu/' title='Mannheim Centre for Competition and Innovation'>MaCCI</a>. I received my PhD in Economics from the University of Arizona in 2026.
 
 I am an applied microeconomist with research interests in industrial organization and health economics. I apply novel structural modeling methods to study policy-relevant questions, with a particular focus on substance-use-related markets.
 
