@@ -19,14 +19,14 @@ nav_order: 2
 
 {% bibliography --query @workingpaper%}
 
-<div style="text-align: right;">
-  <sub style="font-size: 0.9em;">* Scheduled. † Presented by coauthor.</sub>
-</div>
-
 <h2>Work in Progress</h2>
 <hr>
 
 {% bibliography --query @workinginprogress%}
+
+<div style="text-align: right;">
+  <sub style="font-size: 0.9em;">* Scheduled. † Presented by coauthor.</sub>
+</div>
 
 </div>
 
